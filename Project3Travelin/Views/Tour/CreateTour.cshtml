@@ -1,0 +1,38 @@
+﻿@model CreateTourDto
+@{
+    Layout = null;
+}
+
+<link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+<div class="container">
+    <br />
+    <br />
+    <form method="post">
+        <label>Tour Title</label>
+        <input type="text" asp-for="Title" class="form-control" />
+        <br />
+        <label>Country</label>
+        <input type="text" asp-for="Country" class="form-control" />
+        <br />
+        <label>City</label>
+        <input type="text" asp-for="City" class="form-control" />
+        <br />
+        <label>Description</label>
+        <input type="text" asp-for="Description" class="form-control" />
+        <br />
+        <label>Total No. of Participants</label>
+        <input type="number" asp-for="Capacity" class="form-control" />
+        <br />
+        <label>Tour Period</label>
+        <input type="date" asp-for="TourDate" class="form-control" />
+        <br />
+        <label>Day and Night</label>
+        <input type="text" asp-for="DayNight" class="form-control" />
+        <br />
+        <label>Tour Image</label>
+        <input type="text" asp-for="ImageUrl" class="form-control" />
+        <br />
+        <button class="btn btn-primary">Save the Tour</button>
+    </form>
+</div>
