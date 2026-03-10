@@ -1,4 +1,6 @@
-﻿<footer class="pt-20 pb-4" style="background-image: url(/travelin/images/background_pattern.png);">
+﻿@model List<ResultTourDto>
+
+<footer class="pt-20 pb-4" style="background-image: url(/travelin/images/background_pattern.png);">
     <div class="section-shape top-0" style="background-image: url(/travelin/images/shape8.png);"></div>
     <!-- Instagram starts -->
     <div class="insta-main pb-10">
@@ -8,51 +10,14 @@
                     <h5 class="m-0 rounded"><i class="fab fa-instagram"></i> Follow on Instagram</h5>
                 </div>
                 <div class="row attract-slider">
-                    <div class="col-md-3 col-sm-6">
-                        <div class="insta-image rounded">
-                            <a href="gallery.html"><img src="/travelin/images/insta/ins-3.jpg" alt="insta"></a>
+                    @foreach(var item in Model)
+                    {
+                        <div class="col-md-3 col-sm-6">
+                            <div class="insta-image rounded">
+                                <a href="gallery.html"><img src="@item.ImageUrl" alt="insta" style="width:170px; height:120px;"></a>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-md-3 col-sm-6">
-                        <div class="insta-image rounded">
-                            <a href="gallery.html"><img src="/travelin/images/insta/ins-4.jpg" alt="insta"></a>
-                        </div>
-                    </div>
-                    <div class="col-md-3 col-sm-6">
-                        <div class="insta-image rounded">
-                            <a href="gallery.html"><img src="/travelin/images/insta/ins-5.jpg" alt="insta"></a>
-                        </div>
-                    </div>
-                    <div class="col-md-3 col-sm-6">
-                        <div class="insta-image rounded">
-                            <a href="gallery.html"><img src="/travelin/images/insta/ins-1.jpg" alt="insta"></a>
-                        </div>
-                    </div>
-                    <div class="col-md-3 col-sm-6">
-                        <div class="insta-image rounded">
-                            <a href="gallery.html"><img src="/travelin/images/insta/ins-7.jpg" alt="insta"></a>
-                        </div>
-                    </div>
-                    <div class="col-md-3 col-sm-6">
-                        <div class="insta-image rounded">
-                            <a href="gallery.html"><img src="/travelin/images/insta/ins-8.jpg" alt="insta"></a>
-                        </div>
-                    </div>
-                    <div class="col-md-3 col-sm-6">
-                        <div class="insta-image rounded">
-                            <a href="gallery.html"><img src="/travelin/images/insta/ins-2.jpg" alt="insta"></a>
-                        </div>
-                    </div>
-                    <div class="col-md-3 col-sm-6">
-                        <div class="insta-image rounded">
-                            <a href="gallery.html"><img src="/travelin/images/insta/ins-6.jpg" alt="insta"></a>
-                        </div>
-                    </div>
-                    <div class="col-md-3 col-sm-6">
-                        <div class="insta-image rounded">
-                            <a href="gallery.html"><img src="/travelin/images/insta/ins-9.jpg" alt="insta"></a>
-                        </div>
-                    </div>
+                    }
                 </div>
             </div>
         </div>
@@ -134,13 +99,7 @@
                 <div class="col-lg-4 footer-payment-nav mb-4">
                     <ul class="d-flex align-items-center">
                         <li class="me-2 w-75">
-                            <select class="niceSelect rounded">
-                                <option>English</option>
-                                <option>Chinese</option>
-                                <option>Russian</option>
-                                <option>Japanese</option>
-                                <option>Korean</option>
-                            </select>
+                            <div id="google_translate_element"></div>
                         </li>
                         <li class="w-25">
                             <select class="niceSelect rounded">
@@ -176,3 +135,15 @@
     </div>
     <div id="particles-js"></div>
 </footer>
+
+<script type="text/javascript">
+    function googleTranslateElementInit() {
+        new google.translate.TranslateElement({
+            pageLanguage: 'en',
+            includedLanguages: 'en,de,ar,fr',
+            layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+            autoDisplay: false
+        }, 'google_translate_element');
+    }
+</script>
+<script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>

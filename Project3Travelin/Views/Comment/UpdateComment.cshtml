@@ -1,0 +1,442 @@
+﻿@model GetCommentByIdDto
+@{
+    ViewData["Title"] = "UpdateComment";
+    Layout = "~/Views/Shared/_TourLayout.cshtml";
+}
+
+@section Styles {
+    <style>
+        .page-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        .page-title {
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: #1a202c;
+            letter-spacing: -.03em;
+            line-height: 1;
+        }
+        .breadcrumb { margin: 0; padding: 0; background: none; }
+        .breadcrumb-item { font-size: .8rem; }
+        .breadcrumb-item a { color: #2563eb; text-decoration: none; }
+        .breadcrumb-item.active { color: #718096; }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 1.5rem;
+            align-items: start;
+        }
+
+        .form-section {
+            background: #fff;
+            border: 1px solid #e2e8f0;
+            border-radius: 14px;
+            overflow: hidden;
+            box-shadow: 0 2px 12px rgba(0,0,0,.05);
+            margin-bottom: 1.5rem;
+        }
+        .form-section:last-child { margin-bottom: 0; }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: .75rem;
+            padding: 1.1rem 1.5rem;
+            border-bottom: 1px solid #f0f4f8;
+            background: #fafbfc;
+        }
+        .section-icon {
+            width: 34px; height: 34px;
+            border-radius: 9px;
+            display: grid; place-items: center;
+            font-size: .95rem; flex-shrink: 0;
+        }
+        .section-icon.blue  { background: #eff6ff; color: #2563eb; }
+        .section-icon.green { background: #f0fdf4; color: #16a34a; }
+        .section-icon.amber { background: #fffbeb; color: #d97706; }
+        .section-icon.red   { background: #fff5f5; color: #e53e3e; }
+
+        .section-title    { font-weight: 700; font-size: .92rem; color: #1a202c; }
+        .section-subtitle { font-size: .75rem; color: #a0aec0; margin-top: 1px; }
+        .section-body     { padding: 1.5rem; }
+
+        .field-group { margin-bottom: 1.25rem; }
+        .field-group:last-child { margin-bottom: 0; }
+
+        .field-label {
+            display: flex; align-items: center; gap: .35rem;
+            font-size: .78rem; font-weight: 600; color: #4a5568;
+            margin-bottom: .45rem; letter-spacing: .01em;
+        }
+
+        .form-control, .form-select {
+            border: 1.5px solid #e2e8f0;
+            border-radius: 9px;
+            padding: .6rem .875rem;
+            font-size: .875rem;
+            color: #1a202c;
+            background: #fff;
+            transition: border-color .15s, box-shadow .15s;
+            width: 100%;
+        }
+        .form-control:focus, .form-select:focus {
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37,99,235,.1);
+            outline: none;
+        }
+        textarea.form-control {
+            resize: vertical; min-height: 110px; line-height: 1.6;
+        }
+
+        /* STAR RATING */
+        .star-rating {
+            display: flex;
+            flex-direction: row-reverse;
+            justify-content: flex-end;
+            gap: .25rem;
+        }
+        .star-rating input { display: none; }
+        .star-rating label {
+            font-size: 2rem;
+            color: #e2e8f0;
+            cursor: pointer;
+            transition: color .15s;
+        }
+        .star-rating input:checked ~ label,
+        .star-rating label:hover,
+        .star-rating label:hover ~ label {
+            color: #ffc107;
+        }
+
+        /* REVIEWER CARD */
+        .reviewer-card {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            background: #f8fafc;
+            border-radius: 10px;
+            margin-bottom: 1.25rem;
+        }
+        .reviewer-avatar {
+            width: 46px; height: 46px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            display: grid; place-items: center;
+            color: #fff; font-size: 1rem; font-weight: 700;
+            flex-shrink: 0;
+        }
+        .reviewer-name  { font-weight: 600; font-size: .9rem; color: #1a202c; }
+        .reviewer-email { font-size: .75rem; color: #a0aec0; }
+
+        /* STATUS TOGGLE */
+        .status-option {
+            display: flex; align-items: center; gap: .85rem;
+            padding: .85rem 1rem;
+            border: 1.5px solid #e2e8f0;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all .15s;
+            margin-bottom: .6rem;
+        }
+        .status-option:last-child { margin-bottom: 0; }
+        .status-option:hover { border-color: #cbd5e0; background: #fafbfc; }
+        .status-option.selected-approved { border-color: #16a34a; background: #f0fdf4; }
+        .status-option.selected-pending  { border-color: #d97706; background: #fffbeb; }
+        .status-option input[type="radio"] { display: none; }
+        .status-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+        .dot-approved { background: #16a34a; }
+        .dot-pending  { background: #d97706; }
+        .status-text .stitle { font-size: .82rem; font-weight: 600; color: #2d3748; }
+        .status-text .ssub   { font-size: .72rem; color: #a0aec0; }
+
+        /* ACTIONS */
+        .btn-submit {
+            background: #2563eb; color: #fff;
+            border: none; border-radius: 10px;
+            padding: .75rem 1.5rem;
+            font-weight: 700; font-size: .9rem;
+            cursor: pointer; transition: all .15s;
+            display: flex; align-items: center;
+            justify-content: center; gap: .5rem; width: 100%;
+        }
+        .btn-submit:hover {
+            background: #1d4ed8;
+            box-shadow: 0 4px 14px rgba(37,99,235,.35);
+        }
+        .btn-cancel-link {
+            background: none; color: #a0aec0;
+            border: none; border-radius: 10px;
+            padding: .55rem; font-size: .8rem;
+            cursor: pointer; text-align: center;
+            text-decoration: none; display: block;
+            transition: color .12s;
+        }
+        .btn-cancel-link:hover { color: #4a5568; }
+
+        /* SUMMARY */
+        .summary-box { background: #f8fafc; border-radius: 10px; padding: 1rem; font-size: .8rem; }
+        .summary-row {
+            display: flex; justify-content: space-between;
+            align-items: center; padding: .4rem 0;
+            border-bottom: 1px solid #edf2f7; color: #4a5568;
+        }
+        .summary-row:last-child { border-bottom: none; }
+        .summary-row .label { color: #a0aec0; }
+        .summary-row .value { font-weight: 600; color: #2d3748; }
+
+        .sidebar-panel { position: sticky; top: 1.5rem; }
+
+        @@media (max-width: 991px) {
+            .form-grid { grid-template-columns: 1fr; }
+            .sidebar-panel { position: static; }
+        }
+    </style>
+}
+
+<!-- PAGE HEADER -->
+<div class="page-header">
+    <div>
+        <h1 class="page-title">Edit Review</h1>
+        <nav aria-label="breadcrumb" class="mt-2">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="#">Admin</a></li>
+                <li class="breadcrumb-item"><a href="/AdminComment/ReviewList">Reviews</a></li>
+                <li class="breadcrumb-item active">Edit</li>
+            </ol>
+        </nav>
+    </div>
+    <a href="/AdminComment/ReviewList" class="btn btn-outline-secondary d-flex align-items-center gap-2"
+       style="border-radius:10px;font-size:.875rem;font-weight:500;padding:.55rem 1.1rem;">
+        <i class="bi bi-arrow-left"></i> Back to Reviews
+    </a>
+</div>
+
+<form method="post" id="updateReviewForm" novalidate>
+    <input type="hidden" asp-for="CommentId" />
+    @Html.AntiForgeryToken()
+
+    <div class="form-grid">
+
+        <!-- MAIN -->
+        <div class="form-main">
+
+            <!-- Reviewer Info (readonly) -->
+            <div class="form-section">
+                <div class="section-header">
+                    <div class="section-icon blue"><i class="bi bi-person"></i></div>
+                    <div>
+                        <div class="section-title">Reviewer</div>
+                        <div class="section-subtitle">This information cannot be changed</div>
+                    </div>
+                </div>
+                <div class="section-body">
+                    <div class="reviewer-card">
+                        <div class="reviewer-avatar">
+                            @(Model.NameSurname?.Length > 0 ? Model.NameSurname[0].ToString().ToUpper() : "?")
+                        </div>
+                        <div>
+                            <div class="reviewer-name">@Model.NameSurname</div>
+                            <div class="reviewer-email">@Model.Mail</div>
+                        </div>
+                    </div>
+                    <input type="hidden" asp-for="NameSurname" />
+                    <input type="hidden" asp-for="Mail" />
+                    <input type="hidden" asp-for="TourId" />
+                    <input type="hidden" asp-for="CommentDate" />
+                </div>
+            </div>
+
+            <!-- Review Content -->
+            <div class="form-section">
+                <div class="section-header">
+                    <div class="section-icon amber"><i class="bi bi-chat-square-text"></i></div>
+                    <div>
+                        <div class="section-title">Review Content</div>
+                        <div class="section-subtitle">Headline and comment details</div>
+                    </div>
+                </div>
+                <div class="section-body">
+                    <div class="field-group">
+                        <label asp-for="Headline" class="field-label">
+                            <i class="bi bi-type-bold" style="color:#a0aec0;font-size:.85rem;"></i>
+                            Headline
+                        </label>
+                        <input asp-for="Headline" class="form-control"
+                               placeholder="e.g.: Stunning views in Salzburg!" id="headlineInput" />
+                        <span asp-validation-for="Headline" style="font-size:.73rem;color:#e53e3e;"></span>
+                    </div>
+                    <div class="field-group">
+                        <label asp-for="CommentDetail" class="field-label">
+                            <i class="bi bi-text-left" style="color:#a0aec0;font-size:.85rem;"></i>
+                            Comment
+                        </label>
+                        <textarea asp-for="CommentDetail" class="form-control" rows="5"
+                                  placeholder="Detailed review..." id="commentInput"></textarea>
+                        <span asp-validation-for="CommentDetail" style="font-size:.73rem;color:#e53e3e;"></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Score -->
+            <div class="form-section">
+                <div class="section-header">
+                    <div class="section-icon amber"><i class="bi bi-star"></i></div>
+                    <div>
+                        <div class="section-title">Score</div>
+                        <div class="section-subtitle">Click to change the rating</div>
+                    </div>
+                </div>
+                <div class="section-body">
+                    <div class="star-rating" id="starRating">
+                        @for (int i = 5; i >= 1; i--)
+                        {
+                            <input type="radio" name="Score" id="star@(i)" value="@i"
+                                   @(Model.Score == i ? "checked" : "") />
+                            <label for="star@(i)" title="@i stars">
+                                <i class="fa fa-star"></i>
+                            </label>
+                        }
+                    </div>
+                    <p class="mt-2" style="font-size:.78rem;color:#a0aec0;" id="scoreLabel">
+                        Current: <strong id="scoreText">@Model.Score / 5</strong>
+                    </p>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- SIDEBAR -->
+        <div class="sidebar-panel">
+
+            <!-- Status -->
+            <div class="form-section">
+                <div class="section-header">
+                    <div class="section-icon green"><i class="bi bi-toggle-on"></i></div>
+                    <div>
+                        <div class="section-title">Status</div>
+                        <div class="section-subtitle">Visibility on tour page</div>
+                    </div>
+                </div>
+                <div class="section-body">
+                    <label class="status-option @(Model.IsStatus ? "selected-approved" : "")" id="statusApproved">
+                        <input type="radio" name="IsStatus" value="true"
+                               @(Model.IsStatus ? "checked" : "") onchange="updateStatus(this)" />
+                        <span class="status-dot dot-approved"></span>
+                        <div class="status-text">
+                            <div class="stitle">Approved</div>
+                            <div class="ssub">Visible on tour page</div>
+                        </div>
+                        @if (Model.IsStatus)
+                        {
+                            <i class="bi bi-check-circle-fill ms-auto" style="color:#16a34a;font-size:.95rem;"></i>
+                        }
+                    </label>
+                    <label class="status-option @(!Model.IsStatus ? "selected-pending" : "")" id="statusPending">
+                        <input type="radio" name="IsStatus" value="false"
+                               @(!Model.IsStatus ? "checked" : "") onchange="updateStatus(this)" />
+                        <span class="status-dot dot-pending"></span>
+                        <div class="status-text">
+                            <div class="stitle">Pending</div>
+                            <div class="ssub">Hidden from tour page</div>
+                        </div>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Summary -->
+            <div class="form-section">
+                <div class="section-header">
+                    <div class="section-icon blue"><i class="bi bi-eye"></i></div>
+                    <div>
+                        <div class="section-title">Summary</div>
+                        <div class="section-subtitle">Live preview</div>
+                    </div>
+                </div>
+                <div class="section-body">
+                    <div class="summary-box">
+                        <div class="summary-row">
+                            <span class="label">Reviewer</span>
+                            <span class="value">@Model.NameSurname</span>
+                        </div>
+                        <div class="summary-row">
+                            <span class="label">Headline</span>
+                            <span class="value" id="sumHeadline"
+                                  style="max-width:130px;text-align:right;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">
+                                @Model.Headline
+                            </span>
+                        </div>
+                        <div class="summary-row">
+                            <span class="label">Score</span>
+                            <span class="value" id="sumScore">@Model.Score / 5</span>
+                        </div>
+                        <div class="summary-row">
+                            <span class="label">Date</span>
+                            <span class="value">@Model.CommentDate.ToString("dd.MM.yyyy")</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Actions -->
+            <div class="form-section">
+                <div class="section-body">
+                    <div style="display:flex;flex-direction:column;gap:.75rem;">
+                        <button type="submit" class="btn-submit" id="submitBtn">
+                            <i class="bi bi-floppy-fill"></i> Save Changes
+                        </button>
+                        <a href="/AdminComment/ReviewList" class="btn-cancel-link">
+                            <i class="bi bi-x me-1"></i>Cancel and return
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        // Star rating label güncelle
+        document.querySelectorAll('input[name="Score"]').forEach(function (radio) {
+            radio.addEventListener('change', function () {
+                document.getElementById('scoreText').textContent = this.value + ' / 5';
+                document.getElementById('sumScore').textContent = this.value + ' / 5';
+            });
+        });
+
+        // Headline summary güncelle
+        document.getElementById('headlineInput').addEventListener('input', function () {
+            document.getElementById('sumHeadline').textContent = this.value || '—';
+        });
+
+        // Status toggle
+        function updateStatus(radio) {
+            document.getElementById('statusApproved').classList.remove('selected-approved');
+            document.getElementById('statusPending').classList.remove('selected-pending');
+
+            if (radio.value === 'true') {
+                document.getElementById('statusApproved').classList.add('selected-approved');
+            } else {
+                document.getElementById('statusPending').classList.add('selected-pending');
+            }
+        }
+
+        // Submit feedback
+        document.getElementById('updateReviewForm').addEventListener('submit', function () {
+            const btn = document.getElementById('submitBtn');
+            btn.disabled = true;
+            btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Saving...';
+        });
+    </script>
+}
+
+

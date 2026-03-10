@@ -1,0 +1,175 @@
+﻿@model GetDailyTourPlanByIdDto
+
+@{
+    ViewData["Title"] = "UpdateTourPlan";
+    Layout = "~/Views/Shared/_TourLayout.cshtml";
+}
+
+@section Styles {
+    <style>
+
+        .form-card {
+            background: #fff;
+            border: 1px solid #e2e8f0;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,.04);
+            max-width: 850px;
+            margin: 0 auto;
+            overflow: hidden;
+        }
+
+        .form-header {
+            padding: 1.5rem 2rem;
+            background: #fafbfc;
+            border-bottom: 1px solid #f0f4f8;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+            .form-header i {
+                font-size: 1.25rem;
+                color: #2563eb;
+                background: #eff6ff;
+                padding: .6rem;
+                border-radius: 10px;
+            }
+
+        .form-body {
+            padding: 2.5rem;
+        }
+
+        .field-label {
+            font-size: .82rem;
+            font-weight: 700;
+            color: #4a5568;
+            margin-bottom: .6rem;
+            display: flex;
+            align-items: center;
+            gap: .4rem;
+            text-transform: uppercase;
+            letter-spacing: .02em;
+        }
+
+        .form-control, .form-select {
+            border: 1.5px solid #e2e8f0;
+            border-radius: 10px;
+            padding: .8rem 1rem;
+            font-size: .95rem;
+            color: #1a202c;
+            transition: all .2s;
+        }
+
+            .form-control:focus, .form-select:focus {
+                border-color: #2563eb;
+                box-shadow: 0 0 0 4px rgba(37,99,235,.1);
+                outline: none;
+            }
+
+        /* Dropdown specific styling */
+        .form-select {
+            cursor: pointer;
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 1rem center;
+            background-size: 16px 12px;
+        }
+
+        .btn-submit {
+            background: #2563eb;
+            color: #fff;
+            border: none;
+            border-radius: 12px;
+            padding: .8rem 2.5rem;
+            font-weight: 700;
+            font-size: .95rem;
+            display: flex;
+            align-items: center;
+            gap: .6rem;
+            transition: all .2s;
+        }
+
+            .btn-submit:hover {
+                background: #1d4ed8;
+                transform: translateY(-1px);
+                box-shadow: 0 4px 12px rgba(37,99,235,.25);
+            }
+
+        .btn-cancel {
+            background: #fff;
+            color: #718096;
+            border: 1.5px solid #e2e8f0;
+            border-radius: 12px;
+            padding: .8rem 1.8rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all .2s;
+        }
+
+            .btn-cancel:hover {
+                background: #f8fafc;
+                color: #2d3748;
+            }
+
+        .help-text {
+            font-size: .75rem;
+            color: #a0aec0;
+            margin-top: .4rem;
+        }
+    </style>
+}
+
+<div class="page-header d-flex align-items-center justify-content-between mb-4">
+    <div>
+        <h1 class="page-title" style="font-size: 1.6rem; font-weight: 800;">Create Itinerary Day</h1>
+        <p class="text-muted small mb-0">Select a tour and define its daily activities.</p>
+    </div>
+    <a href="/AdminDailyTourPlan/TourPlanList" class="btn-cancel">
+        <i class="bi bi-arrow-left me-1"></i> Back to List
+    </a>
+</div>
+
+<div class="form-card">
+    <div class="form-header">
+        <i class="bi bi-calendar-plus"></i>
+        <div>
+            <h5 class="mb-0 fw-bold">New Plan Details</h5>
+            <p class="text-muted small mb-0">Link this day to an existing tour package.</p>
+        </div>
+    </div>
+
+    <form method="post" class="form-body">
+        <input type="hidden" asp-for="DailyPlanId" />
+        <input type="hidden" asp-for="TourId" />
+        <div class="row g-4">
+            <div class="col-12">
+                <label asp-for="Title" class="field-label">
+                    <i class="bi bi-bookmark-star-fill"></i> Plan Title
+                </label>
+                <input asp-for="Title" class="form-control" placeholder="e.g., Day 1: Welcome to Istanbul" />
+                <span asp-validation-for="Title" class="text-danger small"></span>
+            </div>
+
+            <div class="col-12">
+                <label asp-for="ShortExplanation" class="field-label">
+                    <i class="bi bi-card-text"></i> Highlights & Activities
+                </label>
+                <textarea asp-for="ShortExplanation" class="form-control" rows="6" placeholder="Describe meals, visits, and transportation for the day..."></textarea>
+                <span asp-validation-for="ShortExplanation" class="text-danger small"></span>
+            </div>
+        </div>
+
+        <div class="d-flex justify-content-end align-items-center gap-3 mt-5">
+            <a href="/AdminTour/TourPlanList" class="btn-cancel">Discard Changes</a>
+            <button type="submit" class="btn-submit">
+                <i class="bi bi-cloud-arrow-up-fill"></i>
+                Update Daily Plan
+            </button>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+

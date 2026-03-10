@@ -41,20 +41,26 @@
 						</div>
 						<div class="col-lg-3 col-md-3">
 							<div class="trend-content text-md-end text-center">
-								<div class="rating">
-									<span class="fa fa-star checked"></span>
-									<span class="fa fa-star checked"></span>
-									<span class="fa fa-star checked"></span>
-									<span class="fa fa-star checked"></span>
-									<span class="fa fa-star checked"></span>
+								<div class="rating mb-1">
+									@for (int i = 1; i <= 5; i++)
+									{
+										<i class="fa fa-star" style="color: @(i <= Math.Round(item.AverageScore) ? "#ffc107" : "#ccc"); font-size:13px;"></i>
+									}
 								</div>
-								<small>200 Reviews</small>
+								@if (item.ReviewCount > 0)
+								{
+									<small>@item.AverageScore.ToString("0.0") (@item.ReviewCount Reviews)</small>
+								}
+								else
+								{
+									<small>No reviews yet</small>
+								}
 								<div class="trend-price my-2">
 									<span class="mb-0">From</span>
-									<h3 class="mb-0">$125</h3>
-									<small>Per Adult</small>
+									<h3 class="mb-0">€ @item.Price</h3>
+									<small>Per Person</small>
 								</div>
-								<a href="tour-single.html" class="nir-btn">View Detail</a>
+								<a href="/Tour/TourDetails/@item.TourId" class="nir-btn">View Detail</a>
 							</div>
 						</div>
 					</div>

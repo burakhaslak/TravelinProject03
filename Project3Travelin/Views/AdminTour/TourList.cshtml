@@ -1,15 +1,711 @@
-﻿
+﻿@model List<ResultTourDto>
 @{
-    Layout = null;
+	ViewData["Title"] = "Tur Listesi";
+	Layout = "~/Views/Shared/_TourLayout.cshtml";
+	string q = Context.Request.Query["q"];
+	string country = Context.Request.Query["country"];
+	string fromDate = Context.Request.Query["fromDate"];
+	string toDate = Context.Request.Query["toDate"];
+}
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&display=swap" rel="stylesheet">
+@section Styles {
+	<style>
+		.page-header, .page-header * {
+			font-family: 'Inter', sans-serif !important;
+		}
+
+			.page-header .page-title {
+				font-size: 1.6rem !important;
+				font-weight: 800 !important;
+				color: #1a202c !important;
+				letter-spacing: -0.03em !important;
+				line-height: 1.2 !important;
+			}
+
+			.page-header .breadcrumb-item {
+				font-size: 0.8rem !important;
+				font-weight: 500;
+			}
+
+			.page-header .btn-primary {
+				font-family: 'Inter', sans-serif !important;
+				font-weight: 600 !important;
+				letter-spacing: normal !important;
+				padding: 0.55rem 1.5rem !important;
+			}
+
+		.page-header {
+			display: flex;
+			align-items: flex-start;
+			justify-content: space-between;
+			flex-wrap: wrap;
+			gap: 1rem;
+			margin-bottom: 1.5rem;
+		}
+
+		.page-title {
+			font-family: var(--font-display);
+			font-size: 1.6rem;
+			font-weight: 800;
+			color: #1a202c;
+			letter-spacing: -.03em;
+			line-height: 1;
+		}
+
+		.breadcrumb {
+			margin: 0;
+			padding: 0;
+			background: none;
+		}
+
+		.breadcrumb-item {
+			font-size: .8rem;
+		}
+
+			.breadcrumb-item a {
+				color: #2563eb;
+				text-decoration: none;
+			}
+
+			.breadcrumb-item.active {
+				color: #718096;
+			}
+
+		.filter-card {
+			background: #fff;
+			border: 1px solid #e2e8f0;
+			border-radius: 12px;
+			padding: 1.25rem 1.5rem;
+			margin-bottom: 1.5rem;
+			box-shadow: 0 1px 4px rgba(0,0,0,.04);
+		}
+
+		.table-card {
+			background: #fff;
+			border: 1px solid #e2e8f0;
+			border-radius: 12px;
+			overflow: hidden;
+			box-shadow: 0 2px 12px rgba(0,0,0,.06);
+		}
+
+		.table-card-header {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			padding: 1.1rem 1.5rem;
+			border-bottom: 1px solid #e2e8f0;
+			flex-wrap: wrap;
+			gap: .75rem;
+		}
+
+			.table-card-header .title {
+				font-family: var(--font-display);
+				font-weight: 700;
+				font-size: .95rem;
+				color: #1a202c;
+				display: flex;
+				align-items: center;
+				gap: .5rem;
+			}
+
+		.tour-count {
+			background: #eff6ff;
+			color: #2563eb;
+			font-size: .72rem;
+			font-weight: 600;
+			padding: .2rem .6rem;
+			border-radius: 20px;
+		}
+
+		/* TABLE */
+		.tours-table {
+			width: 100%;
+			border-collapse: collapse;
+		}
+
+			.tours-table thead th {
+				background: #f8fafc;
+				font-size: .72rem;
+				font-weight: 600;
+				text-transform: uppercase;
+				letter-spacing: .06em;
+				color: #718096;
+				padding: .85rem 1rem;
+				border-bottom: 1px solid #e2e8f0;
+				white-space: nowrap;
+			}
+
+			.tours-table tbody tr {
+				transition: background .12s;
+				border-bottom: 1px solid #f0f4f8;
+			}
+
+				.tours-table tbody tr:last-child {
+					border-bottom: none;
+				}
+
+				.tours-table tbody tr:hover {
+					background: #f8fafc;
+				}
+
+			.tours-table tbody td {
+				padding: .85rem 1rem;
+				vertical-align: middle;
+				font-size: .875rem;
+				color: #2d3748;
+			}
+
+		/* THUMBNAIL */
+		.tour-thumb {
+			width: 76px;
+			height: 76px;
+			object-fit: cover;
+			border-radius: 10px;
+			border: 2px solid #e2e8f0;
+			display: block;
+		}
+
+		.thumb-placeholder {
+			width: 76px;
+			height: 76px;
+			border-radius: 10px;
+			background: linear-gradient(135deg, #e2e8f0, #cbd5e0);
+			display: grid;
+			place-items: center;
+			color: #a0aec0;
+			font-size: 1.5rem;
+			border: 2px solid #e2e8f0;
+		}
+
+		/* TITLE CELL */
+		.tour-title {
+			font-weight: 600;
+			color: #1a202c;
+			font-size: .9rem;
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			max-width: 200px;
+		}
+
+		/* BADGE */
+		.loc-badge {
+			display: inline-flex;
+			align-items: center;
+			gap: .3rem;
+			font-size: .78rem;
+			color: #4a5568;
+		}
+
+			.loc-badge i {
+				color: #a0aec0;
+				font-size: .85rem;
+			}
+
+		.date-cell {
+			font-size: .82rem;
+			font-weight: 500;
+			color: #2d3748;
+			white-space: nowrap;
+		}
+
+		.duration-pill {
+			background: #fef3c7;
+			color: #92400e;
+			font-size: .73rem;
+			font-weight: 600;
+			padding: .2rem .65rem;
+			border-radius: 20px;
+			white-space: nowrap;
+		}
+
+		.cap-cell {
+			display: flex;
+			align-items: center;
+			gap: .35rem;
+			font-size: .82rem;
+			font-weight: 500;
+		}
+
+			.cap-cell i {
+				color: #a0aec0;
+			}
+
+		.desc-cell {
+			max-width: 220px;
+			font-size: .8rem;
+			color: #718096;
+			line-height: 1.5;
+		}
+
+		/* ACTION BUTTONS */
+		.action-group {
+			display: flex;
+			align-items: center;
+			gap: .35rem;
+			flex-wrap: nowrap;
+		}
+
+		.btn-action {
+			width: 32px;
+			height: 32px;
+			border-radius: 8px;
+			display: grid;
+			place-items: center;
+			border: none;
+			cursor: pointer;
+			font-size: .85rem;
+			transition: all .15s;
+			text-decoration: none;
+			flex-shrink: 0;
+		}
+
+		.btn-edit {
+			background: #fffbeb;
+			color: #d97706;
+		}
+
+			.btn-edit:hover {
+				background: #fde68a;
+				color: #92400e;
+			}
+
+		.btn-delete {
+			background: #fff5f5;
+			color: #e53e3e;
+		}
+
+			.btn-delete:hover {
+				background: #fed7d7;
+				color: #c53030;
+			}
+
+		.btn-detail {
+			background: #ebf8ff;
+			color: #2b6cb0;
+		}
+
+			.btn-detail:hover {
+				background: #bee3f8;
+				color: #2c5282;
+			}
+
+		/* PAGINATION */
+		.pagination-wrapper {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			padding: 1rem 1.5rem;
+			border-top: 1px solid #e2e8f0;
+			flex-wrap: wrap;
+			gap: .75rem;
+		}
+
+		.page-info {
+			font-size: .8rem;
+			color: #718096;
+		}
+
+		.pagination {
+			margin: 0;
+		}
+
+		.page-link {
+			border-radius: 8px !important;
+			border: 1px solid #e2e8f0;
+			color: #4a5568;
+			font-size: .8rem;
+			font-weight: 500;
+			padding: .35rem .65rem;
+			margin: 0 2px;
+			transition: all .12s;
+		}
+
+			.page-link:hover {
+				background: #f7fafc;
+				border-color: #cbd5e0;
+				color: #1a202c;
+			}
+
+		.page-item.active .page-link {
+			background: #2563eb;
+			border-color: #2563eb;
+			color: #fff;
+		}
+
+		.page-item.disabled .page-link {
+			opacity: .45;
+		}
+
+		/* EMPTY STATE */
+		.empty-state {
+			padding: 4rem 2rem;
+			text-align: center;
+			color: #a0aec0;
+		}
+
+			.empty-state i {
+				font-size: 3rem;
+				margin-bottom: 1rem;
+				display: block;
+			}
+
+			.empty-state p {
+				font-size: .9rem;
+			}
+
+		/* RESPONSIVE */
+		@@media (max-width: 991px) {
+			.tours-table thead {
+				display: none;
+			}
+
+			.tours-table tbody tr {
+				display: flex;
+				flex-wrap: wrap;
+				padding: 1rem;
+				border: 1px solid #e2e8f0;
+				border-radius: 10px;
+				margin: .75rem 1rem;
+				gap: .5rem;
+			}
+
+				.tours-table tbody tr:hover {
+					background: #f8fafc;
+				}
+
+			.tours-table tbody td {
+				display: flex;
+				align-items: center;
+				gap: .5rem;
+				padding: .3rem 0;
+				border: none;
+				width: 100%;
+				font-size: .85rem;
+			}
+
+				.tours-table tbody td::before {
+					content: attr(data-label);
+					font-size: .7rem;
+					font-weight: 600;
+					text-transform: uppercase;
+					letter-spacing: .05em;
+					color: #a0aec0;
+					min-width: 90px;
+					flex-shrink: 0;
+				}
+
+			td[data-label=""] {
+				justify-content: center;
+			}
+
+				td[data-label=""] ::before {
+					display: none;
+				}
+
+			.td-image {
+				order: -1;
+				justify-content: center;
+			}
+
+				.td-image::before {
+					display: none;
+				}
+
+			.tour-title {
+				white-space: normal;
+				max-width: none;
+			}
+
+			.desc-cell {
+				max-width: none;
+			}
+
+			.action-group {
+				width: 100%;
+				justify-content: flex-end;
+			}
+		}
+
+		@@media (max-width: 575px) {
+			.page-header {
+				flex-direction: column;
+			}
+
+			.filter-card .row .col-md-2,
+			.filter-card .row .col-md-3,
+			.filter-card .row .col-md-4 {
+				margin-bottom: .5rem;
+			}
+		}
+	</style>
 }
 
-<!DOCTYPE html>
+<div class="page-header">
+	<div>
+		<h1 class="page-title">Tour List</h1>
+		<nav aria-label="breadcrumb" class="mt-2">
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item"><a href="#">Admin</a></li>
+				<li class="breadcrumb-item active" aria-current="page">Tours</li>
+			</ol>
+		</nav>
+	</div>
+	<a href="/AdminTour/CreateTour/" class="btn btn-primary d-flex align-items-center gap-2" style="border-radius:10px;font-size:.875rem;font-weight:600;padding:.55rem 1.1rem;">
+		<i class="bi bi-plus-lg"></i> Add New Tour
+	</a>
+</div>
 
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>TourList</title>
-</head>
-<body>
-</body>
-</html>
+<div class="filter-card">
+	<form method="get" id="filterForm">
+		<div class="row g-2 align-items-end">
+			<div class="col-12 col-md-4">
+				<label class="form-label fw-semibold" style="font-size:.78rem;color:#718096">Search Tour</label>
+				<div class="input-group">
+					<span class="input-group-text bg-white border-end-0" style="border-radius:8px 0 0 8px;">
+						<i class="bi bi-search text-muted" style="font-size:.85rem;"></i>
+					</span>
+					<input type="text" name="q" value="@q" class="form-control border-start-0 ps-1" placeholder="Tour name or city..." style="border-radius:0 8px 8px 0;" />
+				</div>
+			</div>
+			<div class="col-6 col-md-2">
+				<label class="form-label fw-semibold" style="font-size:.78rem;color:#718096">Country</label>
+				<div class="input-group">
+					<span class="input-group-text bg-white border-end-0" style="border-radius:8px 0 0 8px;">
+						<i class="bi bi-globe2 text-muted" style="font-size:.85rem;"></i>
+					</span>
+					<select name="country" class="form-select border-start-0 ps-1" style="border-radius:0 8px 8px 0; font-size:.875rem;">
+						<option value="">— Select Country —</option>
+
+						@* Avrupa *@
+						<optgroup label="Europe">
+							<option value="Turkey" selected="@(country == "Turkey" ? "selected" : null)">🇹🇷 Turkiye</option>
+							<option value="Italy" selected="@(country == "Italy" ? "selected" : null)">🇮🇹 Italy</option>
+							<option value="France" selected="@(country == "France" ? "selected" : null)">🇫🇷 France</option>
+							<option value="Spain" selected="@(country == "Spain" ? "selected" : null)">🇪🇸 Spain</option>
+							<option value="Greece" selected="@(country == "Greece" ? "selected" : null)">🇬🇷 Greece</option>
+							<option value="Portugal" selected="@(country == "Portugal" ? "selected" : null)">🇵🇹 Portugal</option>
+							<option value="Croatia" selected="@(country == "Croatia" ? "selected" : null)">🇭🇷 Croatia</option>
+							<option value="United Kingdom" selected="@(country == "United Kingdom" ? "selected" : null)">🇬🇧 United Kingdom</option>
+							<option value="Germany" selected="@(country == "Germany" ? "selected" : null)">🇩🇪 Germany</option>
+							<option value="Netherlands" selected="@(country == "Netherlands" ? "selected" : null)">🇳🇱 Netherlands</option>
+							<option value="Switzerland" selected="@(country == "Switzerland" ? "selected" : null)">🇨🇭 Switzerland</option>
+							<option value="Austria" selected="@(country == "Austria" ? "selected" : null)">🇦🇹 Austria</option>
+							<option value="Norway" selected="@(country == "Norway" ? "selected" : null)">🇳🇴 Norway</option>
+							<option value="Iceland" selected="@(country == "Iceland" ? "selected" : null)">🇮🇸 Iceland</option>
+						</optgroup>
+
+						@* Amerika *@
+						<optgroup label="Americas">
+							<option value="USA" selected="@(country == "USA" ? "selected" : null)">🇺🇸 USA</option>
+							<option value="Canada" selected="@(country == "Canada" ? "selected" : null)">🇨🇦 Canada</option>
+							<option value="Brazil" selected="@(country == "Brazil" ? "selected" : null)">🇧🇷 Brazil</option>
+							<option value="Mexico" selected="@(country == "Mexico" ? "selected" : null)">🇲🇽 Mexico</option>
+							<option value="Argentina" selected="@(country == "Argentina" ? "selected" : null)">🇦🇷 Argentina</option>
+						</optgroup>
+
+						@* Asya & Pasifik *@
+						<optgroup label="Asia & Pacific">
+							<option value="Japan" selected="@(country == "Japan" ? "selected" : null)">🇯🇵 Japan</option>
+							<option value="Thailand" selected="@(country == "Thailand" ? "selected" : null)">🇹🇭 Thailand</option>
+							<option value="Bali" selected="@(country == "Bali" ? "selected" : null)">🇮🇩 Bali</option>
+							<option value="Maldives" selected="@(country == "Maldives" ? "selected" : null)">🇲🇻 Maldives</option>
+							<option value="South Korea" selected="@(country == "South Korea" ? "selected" : null)">🇰🇷 South Korea</option>
+							<option value="Vietnam" selected="@(country == "Vietnam" ? "selected" : null)">🇻🇳 Vietnam</option>
+							<option value="Singapore" selected="@(country == "Singapore" ? "selected" : null)">🇸🇬 Singapore</option>
+							<option value="India" selected="@(country == "India" ? "selected" : null)">🇮🇳 India</option>
+							<option value="Australia" selected="@(country == "Australia" ? "selected" : null)">🇦🇺 Australia</option>
+						</optgroup>
+
+						@* Orta Doğu & Afrika *@
+						<optgroup label="Middle East & Africa">
+							<option value="UAE" selected="@(country == "UAE" ? "selected" : null)">🇦🇪 United Arab Emirates</option>
+							<option value="Egypt" selected="@(country == "Egypt" ? "selected" : null)">🇪🇬 Egypt</option>
+							<option value="Morocco" selected="@(country == "Morocco" ? "selected" : null)">🇲🇦 Morocco</option>
+							<option value="Jordan" selected="@(country == "Jordan" ? "selected" : null)">🇯🇴 Jordan</option>
+							<option value="South Africa" selected="@(country == "South Africa" ? "selected" : null)">🇿🇦 South Africa</option>
+							<option value="Tanzania" selected="@(country == "Tanzania" ? "selected" : null)">🇹🇿 Tanzania</option>
+						</optgroup>
+
+						<option value="Other" selected="@(country == "Other" ? "selected" : null)">🌍 Other</option>
+					</select>
+				</div>
+			</div>
+			<div class="col-6 col-md-2">
+				<label class="form-label fw-semibold" style="font-size:.78rem;color:#718096">Start Date</label>
+				<input type="date" name="fromDate" value="@fromDate" class="form-control" style="border-radius:8px;font-size:.875rem;" />
+			</div>
+			<div class="col-6 col-md-2">
+				<label class="form-label fw-semibold" style="font-size:.78rem;color:#718096">End Date</label>
+				<input type="date" name="toDate" value="@toDate" class="form-control" style="border-radius:8px;font-size:.875rem;" />
+			</div>
+			<div class="col-6 col-md-2 d-flex gap-2">
+				<button type="submit" class="btn btn-primary flex-fill" style="border-radius:8px;font-size:.875rem;">
+					<i class="bi bi-funnel me-1"></i> Filter
+				</button>
+				<a href="?" class="btn btn-outline-secondary" style="border-radius:8px;font-size:.875rem;" aria-label="Clear filters">
+					<i class="bi bi-x-lg"></i>
+				</a>
+			</div>
+		</div>
+	</form>
+</div>
+
+<div class="table-card">
+	<div class="table-card-header">
+		<div class="title">
+			<i class="bi bi-table" style="color:#a0aec0;"></i>
+			All Tours
+			<span class="tour-count">@Model?.Count tours</span>
+		</div>
+		<div class="d-flex align-items-center gap-2">
+			<span style="font-size:.78rem;color:#a0aec0;">Sort by:</span>
+			<select class="form-select form-select-sm" style="width:auto;border-radius:8px;font-size:.78rem;">
+				<option>Newest</option>
+				<option>Oldest</option>
+				<option>A-Z</option>
+				<option>By Capacity</option>
+			</select>
+		</div>
+	</div>
+
+	@if (Model == null || !Model.Any())
+	{
+		<div class="empty-state">
+			<i class="bi bi-map"></i>
+			<p>No tours found to display.</p>
+			<a href="#" class="btn btn-primary btn-sm mt-2" style="border-radius:8px;">Add New Tour</a>
+		</div>
+	}
+	else
+	{
+		<div class="table-responsive">
+			<table class="tours-table">
+				<thead>
+					<tr>
+						<th>Image</th>
+						<th>Tour Title</th>
+						<th>Country</th>
+						<th>Price</th>
+						<th>Date</th>
+						<th>Duration</th>
+						<th>Capacity</th>
+						<th>Description</th>
+						<th>Actions</th>
+					</tr>
+				</thead>
+				<tbody>
+					@foreach (var item in Model)
+					{
+						<tr>
+							<td class="td-image" data-label="">
+								@if (!string.IsNullOrWhiteSpace(item.ImageUrl))
+								{
+									<img src="@item.ImageUrl" alt="@item.Title" class="tour-thumb" loading="lazy" />
+								}
+								else
+								{
+									<div class="thumb-placeholder"><i class="bi bi-image"></i></div>
+								}
+							</td>
+							<td data-label="Title">
+								<span class="tour-title" title="@item.Title">@item.Title</span>
+							</td>
+							<td data-label="Country">
+								<span class="loc-badge"><i class="bi bi-globe2"></i>@item.Country</span>
+							</td>
+							<td data-label="City">
+								<span class="loc-badge"><i class="bi bi-tag"></i>€@item.Price</span>
+							</td>
+							<td data-label="Date">
+								<span class="date-cell"><i class="bi bi-calendar3 me-1 text-muted"></i>@item.TourStart.ToString("dd.MM.yyyy") - @item.TourEnd.ToString("dd.MM.yyyy") </span>
+							</td>
+							<td data-label="Duration">
+								<span class="duration-pill"><i class="bi bi-clock me-1"></i>@item.DayNight</span>
+							</td>
+							<td data-label="Capacity">
+								<span class="cap-cell"><i class="bi bi-people"></i>@item.Capacity</span>
+							</td>
+							<td data-label="Description">
+								<span class="desc-cell">@((item.Description?.Length > 80) ? item.Description.Substring(0, 80) + "…" : item.Description)</span>
+							</td>
+							<td data-label="Actions">
+								<div class="action-group">
+									<a asp-action="UpdateTour" asp-route-id="@item.TourId"
+									   class="btn-action btn-edit"
+									   aria-label="Edit @item.Title tour"
+									   title="Edit">
+										<i class="bi bi-pencil"></i>
+									</a>
+									<button type="button"
+											class="btn-action btn-delete"
+											aria-label="Delete @item.Title tour"
+											title="Delete"
+											onclick="confirmDelete('@item.TourId', '@Html.Raw(System.Web.HttpUtility.JavaScriptStringEncode(item.Title))')">
+										<i class="bi bi-trash3"></i>
+									</button>
+									<a asp-action="ActiveParticipantList" asp-route-id="@item.TourId" asp-controller="AdminBooking"
+									   class="btn-action btn-detail"
+									   aria-label="@item.Title tour detail"
+									   title="Detail">
+										<i class="bi bi-eye"></i>
+									</a>
+								</div>
+							</td>
+						</tr>
+					}
+				</tbody>
+			</table>
+		</div>
+
+		<div class="pagination-wrapper">
+			<span class="page-info">Showing @Model.Count of results</span>
+			<nav aria-label="Pagination">
+				<ul class="pagination pagination-sm">
+					@for (int i = 1; i <= ViewBag.TotalPages; i++)
+					{
+						<li class="page-item @(ViewBag.CurrentPage == i ? "active" : "")">
+							<a class="page-link" href="?page=@i&q=@Context.Request.Query["q"]&country=@Context.Request.Query["country"]&fromDate=@Context.Request.Query["fromDate"]&toDate=@Context.Request.Query["toDate"]">@i</a>
+						</li>
+					}
+				</ul>
+			</nav>
+		</div>
+	}
+</div>
+
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered" style="max-width:420px">
+		<div class="modal-content" style="border-radius:14px;border:0;box-shadow:0 20px 60px rgba(0,0,0,.15)">
+			<div class="modal-body p-4 text-center">
+				<div style="width:60px;height:60px;background:#fff5f5;border-radius:50%;display:grid;place-items:center;margin:0 auto 1.25rem;font-size:1.5rem;color:#e53e3e;">
+					<i class="bi bi-exclamation-triangle"></i>
+				</div>
+				<h5 style="font-family:var(--font-display);font-weight:700;font-size:1.1rem;color:#1a202c;margin-bottom:.5rem;">Tour will be deleted</h5>
+				<p class="text-muted" style="font-size:.875rem;" id="deleteModalBody">Are you sure you want to delete this tour?</p>
+			</div>
+			<div class="modal-footer border-0 pt-0 pb-4 px-4 d-flex gap-2">
+				<button type="button" class="btn btn-light flex-fill" data-bs-dismiss="modal" style="border-radius:10px; font-weight:600;">Cancel</button>
+				<a id="confirmDeleteBtn" href="#" class="btn btn-danger flex-fill" style="border-radius:10px; font-weight:600; background-color:#e53e3e;">Delete</a>
+			</div>
+		</div>
+	</div>
+</div>
+
+@section Scripts {
+	<script>
+		function confirmDelete(id, title) {
+			// Modal içindeki metni güncelle
+			const modalBody = document.getElementById('deleteModalBody');
+			modalBody.innerText = "'" + title + "' tour will be permanently deleted. Are you sure?";
+
+			// Dinamik URL oluşturma: /AdminTour/DeleteTour/ID
+			const deleteUrl = "/AdminTour/DeleteTour/" + id;
+			document.getElementById('confirmDeleteBtn').href = deleteUrl;
+
+			// Modal'ı Bootstrap 5 ile aç
+			const myModal = new bootstrap.Modal(document.getElementById('deleteModal'));
+			myModal.show();
+		}
+	</script>
+}

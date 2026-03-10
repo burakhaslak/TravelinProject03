@@ -1,13 +1,19 @@
 {
   "version": 2,
-  "dgSpecHash": "2KjDjCzxjdE=",
+  "dgSpecHash": "lhixVk3fI/E=",
   "success": true,
   "projectFilePath": "C:\\Users\\burakhaslak\\source\\repos\\Project3Travelin\\Project3Travelin\\Project3Travelin.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\burakhaslak\\.nuget\\packages\\automapper\\13.0.1\\automapper.13.0.1.nupkg.sha512",
     "C:\\Users\\burakhaslak\\.nuget\\packages\\awssdk.core\\3.7.100.14\\awssdk.core.3.7.100.14.nupkg.sha512",
     "C:\\Users\\burakhaslak\\.nuget\\packages\\awssdk.securitytoken\\3.7.100.14\\awssdk.securitytoken.3.7.100.14.nupkg.sha512",
+    "C:\\Users\\burakhaslak\\.nuget\\packages\\bouncycastle.cryptography\\2.6.2\\bouncycastle.cryptography.2.6.2.nupkg.sha512",
+    "C:\\Users\\burakhaslak\\.nuget\\packages\\closedxml\\0.105.0\\closedxml.0.105.0.nupkg.sha512",
+    "C:\\Users\\burakhaslak\\.nuget\\packages\\closedxml.parser\\2.0.0\\closedxml.parser.2.0.0.nupkg.sha512",
     "C:\\Users\\burakhaslak\\.nuget\\packages\\dnsclient\\1.6.1\\dnsclient.1.6.1.nupkg.sha512",
+    "C:\\Users\\burakhaslak\\.nuget\\packages\\documentformat.openxml\\3.1.1\\documentformat.openxml.3.1.1.nupkg.sha512",
+    "C:\\Users\\burakhaslak\\.nuget\\packages\\documentformat.openxml.framework\\3.1.1\\documentformat.openxml.framework.3.1.1.nupkg.sha512",
+    "C:\\Users\\burakhaslak\\.nuget\\packages\\excelnumberformat\\1.1.0\\excelnumberformat.1.1.0.nupkg.sha512",
     "C:\\Users\\burakhaslak\\.nuget\\packages\\humanizer\\2.14.1\\humanizer.2.14.1.nupkg.sha512",
     "C:\\Users\\burakhaslak\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
     "C:\\Users\\burakhaslak\\.nuget\\packages\\humanizer.core.af\\2.14.1\\humanizer.core.af.2.14.1.nupkg.sha512",
@@ -58,6 +64,8 @@
     "C:\\Users\\burakhaslak\\.nuget\\packages\\humanizer.core.zh-cn\\2.14.1\\humanizer.core.zh-cn.2.14.1.nupkg.sha512",
     "C:\\Users\\burakhaslak\\.nuget\\packages\\humanizer.core.zh-hans\\2.14.1\\humanizer.core.zh-hans.2.14.1.nupkg.sha512",
     "C:\\Users\\burakhaslak\\.nuget\\packages\\humanizer.core.zh-hant\\2.14.1\\humanizer.core.zh-hant.2.14.1.nupkg.sha512",
+    "C:\\Users\\burakhaslak\\.nuget\\packages\\itextsharp\\5.5.13.5\\itextsharp.5.5.13.5.nupkg.sha512",
+    "C:\\Users\\burakhaslak\\.nuget\\packages\\mailkit\\4.15.0\\mailkit.4.15.0.nupkg.sha512",
     "C:\\Users\\burakhaslak\\.nuget\\packages\\messagepack\\2.1.152\\messagepack.2.1.152.nupkg.sha512",
     "C:\\Users\\burakhaslak\\.nuget\\packages\\messagepack.annotations\\2.1.152\\messagepack.annotations.2.1.152.nupkg.sha512",
     "C:\\Users\\burakhaslak\\.nuget\\packages\\messagepackanalyzer\\2.1.152\\messagepackanalyzer.2.1.152.nupkg.sha512",
@@ -92,6 +100,7 @@
     "C:\\Users\\burakhaslak\\.nuget\\packages\\microsoft.visualstudio.web.codegenerators.mvc\\6.0.18\\microsoft.visualstudio.web.codegenerators.mvc.6.0.18.nupkg.sha512",
     "C:\\Users\\burakhaslak\\.nuget\\packages\\microsoft.win32.primitives\\4.3.0\\microsoft.win32.primitives.4.3.0.nupkg.sha512",
     "C:\\Users\\burakhaslak\\.nuget\\packages\\microsoft.win32.registry\\5.0.0\\microsoft.win32.registry.5.0.0.nupkg.sha512",
+    "C:\\Users\\burakhaslak\\.nuget\\packages\\mimekit\\4.15.0\\mimekit.4.15.0.nupkg.sha512",
     "C:\\Users\\burakhaslak\\.nuget\\packages\\mongodb.bson\\3.6.0\\mongodb.bson.3.6.0.nupkg.sha512",
     "C:\\Users\\burakhaslak\\.nuget\\packages\\mongodb.driver\\3.6.0\\mongodb.driver.3.6.0.nupkg.sha512",
     "C:\\Users\\burakhaslak\\.nuget\\packages\\mongodb.driver.core\\2.30.0\\mongodb.driver.core.2.30.0.nupkg.sha512",
@@ -107,6 +116,7 @@
     "C:\\Users\\burakhaslak\\.nuget\\packages\\nuget.projectmodel\\6.9.1\\nuget.projectmodel.6.9.1.nupkg.sha512",
     "C:\\Users\\burakhaslak\\.nuget\\packages\\nuget.protocol\\6.9.1\\nuget.protocol.6.9.1.nupkg.sha512",
     "C:\\Users\\burakhaslak\\.nuget\\packages\\nuget.versioning\\6.9.1\\nuget.versioning.6.9.1.nupkg.sha512",
+    "C:\\Users\\burakhaslak\\.nuget\\packages\\rbush.signed\\4.0.0\\rbush.signed.4.0.0.nupkg.sha512",
     "C:\\Users\\burakhaslak\\.nuget\\packages\\runtime.debian.8-x64.runtime.native.system.security.cryptography.openssl\\4.3.0\\runtime.debian.8-x64.runtime.native.system.security.cryptography.openssl.4.3.0.nupkg.sha512",
     "C:\\Users\\burakhaslak\\.nuget\\packages\\runtime.fedora.23-x64.runtime.native.system.security.cryptography.openssl\\4.3.0\\runtime.fedora.23-x64.runtime.native.system.security.cryptography.openssl.4.3.0.nupkg.sha512",
     "C:\\Users\\burakhaslak\\.nuget\\packages\\runtime.fedora.24-x64.runtime.native.system.security.cryptography.openssl\\4.3.0\\runtime.fedora.24-x64.runtime.native.system.security.cryptography.openssl.4.3.0.nupkg.sha512",
@@ -124,6 +134,7 @@
     "C:\\Users\\burakhaslak\\.nuget\\packages\\runtime.ubuntu.16.04-x64.runtime.native.system.security.cryptography.openssl\\4.3.0\\runtime.ubuntu.16.04-x64.runtime.native.system.security.cryptography.openssl.4.3.0.nupkg.sha512",
     "C:\\Users\\burakhaslak\\.nuget\\packages\\runtime.ubuntu.16.10-x64.runtime.native.system.security.cryptography.openssl\\4.3.0\\runtime.ubuntu.16.10-x64.runtime.native.system.security.cryptography.openssl.4.3.0.nupkg.sha512",
     "C:\\Users\\burakhaslak\\.nuget\\packages\\sharpcompress\\0.30.1\\sharpcompress.0.30.1.nupkg.sha512",
+    "C:\\Users\\burakhaslak\\.nuget\\packages\\sixlabors.fonts\\1.0.0\\sixlabors.fonts.1.0.0.nupkg.sha512",
     "C:\\Users\\burakhaslak\\.nuget\\packages\\snappier\\1.0.0\\snappier.1.0.0.nupkg.sha512",
     "C:\\Users\\burakhaslak\\.nuget\\packages\\system.appcontext\\4.3.0\\system.appcontext.4.3.0.nupkg.sha512",
     "C:\\Users\\burakhaslak\\.nuget\\packages\\system.buffers\\4.5.1\\system.buffers.4.5.1.nupkg.sha512",
@@ -141,7 +152,7 @@
     "C:\\Users\\burakhaslak\\.nuget\\packages\\system.diagnostics.diagnosticsource\\4.3.0\\system.diagnostics.diagnosticsource.4.3.0.nupkg.sha512",
     "C:\\Users\\burakhaslak\\.nuget\\packages\\system.diagnostics.tools\\4.3.0\\system.diagnostics.tools.4.3.0.nupkg.sha512",
     "C:\\Users\\burakhaslak\\.nuget\\packages\\system.diagnostics.tracing\\4.3.0\\system.diagnostics.tracing.4.3.0.nupkg.sha512",
-    "C:\\Users\\burakhaslak\\.nuget\\packages\\system.formats.asn1\\6.0.1\\system.formats.asn1.6.0.1.nupkg.sha512",
+    "C:\\Users\\burakhaslak\\.nuget\\packages\\system.formats.asn1\\8.0.1\\system.formats.asn1.8.0.1.nupkg.sha512",
     "C:\\Users\\burakhaslak\\.nuget\\packages\\system.globalization\\4.3.0\\system.globalization.4.3.0.nupkg.sha512",
     "C:\\Users\\burakhaslak\\.nuget\\packages\\system.globalization.calendars\\4.3.0\\system.globalization.calendars.4.3.0.nupkg.sha512",
     "C:\\Users\\burakhaslak\\.nuget\\packages\\system.globalization.extensions\\4.3.0\\system.globalization.extensions.4.3.0.nupkg.sha512",
@@ -150,6 +161,7 @@
     "C:\\Users\\burakhaslak\\.nuget\\packages\\system.io.compression.zipfile\\4.3.0\\system.io.compression.zipfile.4.3.0.nupkg.sha512",
     "C:\\Users\\burakhaslak\\.nuget\\packages\\system.io.filesystem\\4.3.0\\system.io.filesystem.4.3.0.nupkg.sha512",
     "C:\\Users\\burakhaslak\\.nuget\\packages\\system.io.filesystem.primitives\\4.3.0\\system.io.filesystem.primitives.4.3.0.nupkg.sha512",
+    "C:\\Users\\burakhaslak\\.nuget\\packages\\system.io.packaging\\8.0.1\\system.io.packaging.8.0.1.nupkg.sha512",
     "C:\\Users\\burakhaslak\\.nuget\\packages\\system.io.pipelines\\5.0.1\\system.io.pipelines.5.0.1.nupkg.sha512",
     "C:\\Users\\burakhaslak\\.nuget\\packages\\system.linq\\4.3.0\\system.linq.4.3.0.nupkg.sha512",
     "C:\\Users\\burakhaslak\\.nuget\\packages\\system.linq.expressions\\4.3.0\\system.linq.expressions.4.3.0.nupkg.sha512",
@@ -180,13 +192,13 @@
     "C:\\Users\\burakhaslak\\.nuget\\packages\\system.security.cryptography.csp\\4.3.0\\system.security.cryptography.csp.4.3.0.nupkg.sha512",
     "C:\\Users\\burakhaslak\\.nuget\\packages\\system.security.cryptography.encoding\\4.3.0\\system.security.cryptography.encoding.4.3.0.nupkg.sha512",
     "C:\\Users\\burakhaslak\\.nuget\\packages\\system.security.cryptography.openssl\\4.3.0\\system.security.cryptography.openssl.4.3.0.nupkg.sha512",
-    "C:\\Users\\burakhaslak\\.nuget\\packages\\system.security.cryptography.pkcs\\6.0.4\\system.security.cryptography.pkcs.6.0.4.nupkg.sha512",
+    "C:\\Users\\burakhaslak\\.nuget\\packages\\system.security.cryptography.pkcs\\8.0.1\\system.security.cryptography.pkcs.8.0.1.nupkg.sha512",
     "C:\\Users\\burakhaslak\\.nuget\\packages\\system.security.cryptography.primitives\\4.3.0\\system.security.cryptography.primitives.4.3.0.nupkg.sha512",
     "C:\\Users\\burakhaslak\\.nuget\\packages\\system.security.cryptography.protecteddata\\4.4.0\\system.security.cryptography.protecteddata.4.4.0.nupkg.sha512",
     "C:\\Users\\burakhaslak\\.nuget\\packages\\system.security.cryptography.x509certificates\\4.3.0\\system.security.cryptography.x509certificates.4.3.0.nupkg.sha512",
     "C:\\Users\\burakhaslak\\.nuget\\packages\\system.security.principal.windows\\5.0.0\\system.security.principal.windows.5.0.0.nupkg.sha512",
     "C:\\Users\\burakhaslak\\.nuget\\packages\\system.text.encoding\\4.3.0\\system.text.encoding.4.3.0.nupkg.sha512",
-    "C:\\Users\\burakhaslak\\.nuget\\packages\\system.text.encoding.codepages\\4.5.1\\system.text.encoding.codepages.4.5.1.nupkg.sha512",
+    "C:\\Users\\burakhaslak\\.nuget\\packages\\system.text.encoding.codepages\\8.0.0\\system.text.encoding.codepages.8.0.0.nupkg.sha512",
     "C:\\Users\\burakhaslak\\.nuget\\packages\\system.text.encoding.extensions\\4.3.0\\system.text.encoding.extensions.4.3.0.nupkg.sha512",
     "C:\\Users\\burakhaslak\\.nuget\\packages\\system.text.regularexpressions\\4.3.0\\system.text.regularexpressions.4.3.0.nupkg.sha512",
     "C:\\Users\\burakhaslak\\.nuget\\packages\\system.threading\\4.3.0\\system.threading.4.3.0.nupkg.sha512",
@@ -197,5 +209,18 @@
     "C:\\Users\\burakhaslak\\.nuget\\packages\\system.xml.xdocument\\4.3.0\\system.xml.xdocument.4.3.0.nupkg.sha512",
     "C:\\Users\\burakhaslak\\.nuget\\packages\\zstdsharp.port\\0.7.3\\zstdsharp.port.0.7.3.nupkg.sha512"
   ],
-  "logs": []
+  "logs": [
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "message": "Package 'iTextSharp 5.5.13.5' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1' instead of the project target framework 'net6.0'. This package may not be fully compatible with your project.",
+      "projectPath": "C:\\Users\\burakhaslak\\source\\repos\\Project3Travelin\\Project3Travelin\\Project3Travelin.csproj",
+      "warningLevel": 1,
+      "filePath": "C:\\Users\\burakhaslak\\source\\repos\\Project3Travelin\\Project3Travelin\\Project3Travelin.csproj",
+      "libraryId": "iTextSharp",
+      "targetGraphs": [
+        "net6.0"
+      ]
+    }
+  ]
 }

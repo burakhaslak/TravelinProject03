@@ -1,0 +1,489 @@
+﻿@model Project3Travelin.Models.DashboardViewModel
+@{
+    ViewData["Title"] = "DashboardPage";
+    Layout = "~/Views/Shared/_TourLayout.cshtml";
+}
+
+@section Styles {
+    <style>
+        .page-header {
+            display: flex; align-items: flex-start; justify-content: space-between;
+            flex-wrap: wrap; gap: 1rem; margin-bottom: 2rem;
+        }
+        .page-title { font-size: 1.6rem; font-weight: 800; color: #1a202c; letter-spacing: -.03em; line-height: 1; }
+        .page-sub { font-size: .85rem; color: #a0aec0; margin-top: .3rem; }
+        .breadcrumb { margin: 0; padding: 0; background: none; }
+        .breadcrumb-item { font-size: .8rem; }
+        .breadcrumb-item a { color: #2563eb; text-decoration: none; }
+        .breadcrumb-item.active { color: #718096; }
+
+        /* STAT CARDS */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.25rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .stat-card {
+            background: #fff;
+            border: 1px solid #e2e8f0;
+            border-radius: 14px;
+            padding: 1.4rem 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,.04);
+            display: flex;
+            flex-direction: column;
+            gap: .75rem;
+            transition: box-shadow .2s, transform .2s;
+        }
+        .stat-card:hover { box-shadow: 0 8px 24px rgba(0,0,0,.08); transform: translateY(-2px); }
+
+        .stat-header { display: flex; align-items: center; justify-content: space-between; }
+
+        .stat-icon {
+            width: 42px; height: 42px; border-radius: 11px;
+            display: grid; place-items: center; font-size: 1.1rem;
+        }
+        .stat-icon.blue   { background: #eff6ff; color: #2563eb; }
+        .stat-icon.green  { background: #f0fdf4; color: #16a34a; }
+        .stat-icon.amber  { background: #fffbeb; color: #d97706; }
+        .stat-icon.purple { background: #faf5ff; color: #7c3aed; }
+        .stat-icon.red    { background: #fff5f5; color: #e53e3e; }
+
+        .stat-trend {
+            font-size: .72rem; font-weight: 600; padding: .2rem .55rem;
+            border-radius: 20px; display: flex; align-items: center; gap: .2rem;
+        }
+        .stat-trend.up   { background: #f0fdf4; color: #16a34a; }
+        .stat-trend.down { background: #fff5f5; color: #e53e3e; }
+        .stat-trend.neutral { background: #f8fafc; color: #718096; }
+
+        .stat-value { font-size: 2rem; font-weight: 800; color: #1a202c; line-height: 1; }
+        .stat-label { font-size: .78rem; color: #a0aec0; font-weight: 500; }
+
+        /* CONTENT GRID */
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .content-grid-3 {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr; /* 2fr'den 1.5fr'ye */
+            gap: 1.5rem;
+        }
+
+        /* CARD */
+        .dash-card {
+            background: #fff;
+            border: 1px solid #e2e8f0;
+            border-radius: 14px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,.04);
+        }
+
+        .dash-card-header {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 1.1rem 1.5rem; border-bottom: 1px solid #f0f4f8;
+            background: #fafbfc;
+        }
+
+        .dash-card-title {
+            font-weight: 700; font-size: .92rem; color: #1a202c;
+            display: flex; align-items: center; gap: .5rem;
+        }
+
+        .dash-card-title i { color: #a0aec0; }
+
+        .view-all {
+            font-size: .75rem; color: #2563eb; text-decoration: none; font-weight: 600;
+            display: flex; align-items: center; gap: .25rem;
+        }
+        .view-all:hover { color: #1d4ed8; }
+
+        .dash-card-body { padding: 1.25rem 1.5rem; }
+
+        /* BOOKING LIST */
+        .booking-item {
+            display: flex; align-items: center; gap: 1rem;
+            padding: .85rem 0; border-bottom: 1px solid #f0f4f8;
+        }
+        .booking-item:last-child { border-bottom: none; padding-bottom: 0; }
+        .booking-item:first-child { padding-top: 0; }
+
+        .booking-avatar {
+            width: 36px; height: 36px; border-radius: 50%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            display: grid; place-items: center;
+            color: #fff; font-size: .78rem; font-weight: 700; flex-shrink: 0;
+        }
+
+        .booking-info { flex: 1; min-width: 0; }
+        .booking-name { font-weight: 600; font-size: .85rem; color: #1a202c; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .booking-tour { font-size: .75rem; color: #a0aec0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+        .booking-right { text-align: right; flex-shrink: 0; }
+        .booking-price { font-weight: 700; font-size: .9rem; color: #1a202c; }
+        .booking-date { font-size: .72rem; color: #a0aec0; }
+
+        /* STATUS PILLS */
+        .pill {
+            display: inline-flex; align-items: center; gap: .3rem;
+            font-size: .7rem; font-weight: 600; padding: .2rem .6rem; border-radius: 20px;
+        }
+        .pill-pending  { background: #fefce8; color: #ca8a04; }
+        .pill-approved { background: #f0fdf4; color: #16a34a; }
+        .pill-cancelled { background: #fff5f5; color: #e53e3e; }
+
+        /* STATUS BREAKDOWN */
+        .status-breakdown { display: flex; flex-direction: column; gap: .75rem; }
+
+        .status-row { display: flex; flex-direction: column; gap: .35rem; }
+        .status-row-header { display: flex; justify-content: space-between; align-items: center; }
+        .status-row-label { font-size: .8rem; font-weight: 600; color: #2d3748; display: flex; align-items: center; gap: .4rem; }
+        .status-row-value { font-size: .8rem; font-weight: 700; color: #1a202c; }
+
+        .progress-bar-wrap {
+            height: 7px; background: #f0f4f8; border-radius: 99px; overflow: hidden;
+        }
+        .progress-bar-fill {
+            height: 100%; border-radius: 99px; transition: width .6s ease;
+        }
+        .fill-approved  { background: #16a34a; }
+        .fill-pending   { background: #d97706; }
+        .fill-cancelled { background: #e53e3e; }
+
+        /* COMMENT LIST */
+        .comment-item {
+            display: flex;
+            gap: .85rem;
+            padding: .6rem 0; /* .85rem'den .6rem'e */
+            border-bottom: 1px solid #f0f4f8;
+        }
+        .comment-item:last-child { border-bottom: none; padding-bottom: 0; }
+        .comment-item:first-child { padding-top: 0; }
+
+        .comment-avatar {
+            width: 34px; height: 34px; border-radius: 50%;
+            background: linear-gradient(135deg, #f093fb, #f5576c);
+            display: grid; place-items: center;
+            color: #fff; font-size: .75rem; font-weight: 700; flex-shrink: 0;
+        }
+
+        .comment-body { flex: 1; min-width: 0; }
+        .comment-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: .2rem; }
+        .comment-name { font-weight: 600; font-size: .82rem; color: #1a202c; }
+        .comment-stars { display: flex; gap: 1px; }
+        .comment-stars i { font-size: .7rem; }
+        .comment-tour { font-size: .72rem; color: #a0aec0; margin-bottom: .3rem; }
+        .comment-text { font-size: .78rem; color: #718096; line-height: 1.5; }
+
+        /* TOP TOURS */
+        .tour-item {
+            display: flex; align-items: center; gap: 1rem;
+            padding: .75rem 0; border-bottom: 1px solid #f0f4f8;
+        }
+        .tour-item:last-child { border-bottom: none; padding-bottom: 0; }
+        .tour-item:first-child { padding-top: 0; }
+
+        .tour-rank {
+            width: 28px; height: 28px; border-radius: 8px;
+            background: #f8fafc; border: 1px solid #e2e8f0;
+            display: grid; place-items: center;
+            font-size: .75rem; font-weight: 700; color: #718096; flex-shrink: 0;
+        }
+        .tour-rank.gold   { background: #fef9c3; border-color: #fde047; color: #a16207; }
+        .tour-rank.silver { background: #f1f5f9; border-color: #cbd5e0; color: #475569; }
+        .tour-rank.bronze { background: #fff7ed; border-color: #fed7aa; color: #c2410c; }
+
+        .tour-item-info { flex: 1; min-width: 0; }
+        .tour-item-name { font-weight: 600; font-size: .85rem; color: #1a202c; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .tour-item-loc  { font-size: .73rem; color: #a0aec0; }
+        .tour-item-right { text-align: right; flex-shrink: 0; }
+        .tour-item-count { font-weight: 700; font-size: .9rem; color: #2563eb; }
+        .tour-item-label { font-size: .7rem; color: #a0aec0; }
+
+        /* EMPTY */
+        .empty-mini { padding: 2rem; text-align: center; color: #a0aec0; font-size: .82rem; }
+        .empty-mini i { font-size: 1.5rem; display: block; margin-bottom: .5rem; }
+
+        @@media (max-width: 1199px) {
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        @@media (max-width: 767px) {
+            .stats-grid { grid-template-columns: 1fr 1fr; }
+            .content-grid, .content-grid-3 { grid-template-columns: 1fr; }
+        }
+        @@media (max-width: 480px) {
+            .stats-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+}
+
+<!-- PAGE HEADER -->
+<div class="page-header">
+    <div>
+        <h1 class="page-title">Dashboard</h1>
+        <p class="page-sub">Welcome back! Here's what's happening with your tours.</p>
+        <nav aria-label="breadcrumb" class="mt-2">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="#">Admin</a></li>
+                <li class="breadcrumb-item active">Dashboard</li>
+            </ol>
+        </nav>
+    </div>
+    <div style="font-size:.82rem; color:#a0aec0; text-align:right;">
+        <i class="bi bi-clock me-1"></i>
+        @DateTime.Now.ToString("dddd, MMMM dd yyyy")
+    </div>
+</div>
+
+<!-- STAT CARDS -->
+<div class="stats-grid">
+    <div class="stat-card">
+        <div class="stat-header">
+            <div class="stat-icon blue"><i class="bi bi-map"></i></div>
+            <span class="stat-trend neutral"><i class="bi bi-dash"></i> Total</span>
+        </div>
+        <div>
+            <div class="stat-value">@Model.TotalTours</div>
+            <div class="stat-label">Active Tours</div>
+        </div>
+    </div>
+
+    <div class="stat-card">
+        <div class="stat-header">
+            <div class="stat-icon green"><i class="bi bi-calendar-check"></i></div>
+            <span class="stat-trend up"><i class="bi bi-arrow-up"></i> @Model.ApprovedBookings approved</span>
+        </div>
+        <div>
+            <div class="stat-value">@Model.TotalBookings</div>
+            <div class="stat-label">Total Bookings</div>
+        </div>
+    </div>
+
+    <div class="stat-card">
+        <div class="stat-header">
+            <div class="stat-icon purple"><i class="bi bi-currency-euro"></i></div>
+            <span class="stat-trend up"><i class="bi bi-arrow-up"></i> Revenue</span>
+        </div>
+        <div>
+            <div class="stat-value">€@Model.TotalRevenue.ToString("N0")</div>
+            <div class="stat-label">Total Revenue</div>
+        </div>
+    </div>
+
+    <div class="stat-card">
+        <div class="stat-header">
+            <div class="stat-icon amber"><i class="bi bi-chat-square-text"></i></div>
+            <span class="stat-trend neutral"><i class="bi bi-star"></i> @Model.AverageRating.ToString("0.0") avg</span>
+        </div>
+        <div>
+            <div class="stat-value">@Model.TotalReviews</div>
+            <div class="stat-label">Total Reviews</div>
+        </div>
+    </div>
+</div>
+
+<!-- ROW 1: Recent Bookings + Status Breakdown -->
+<div class="content-grid">
+
+    <!-- Recent Bookings -->
+    <div class="dash-card">
+        <div class="dash-card-header">
+            <div class="dash-card-title">
+                <i class="bi bi-calendar3"></i> Recent Bookings
+            </div>
+            <a href="/AdminBooking/BookingList" class="view-all">View all <i class="bi bi-arrow-right"></i></a>
+        </div>
+        <div class="dash-card-body" style="padding:0 1.5rem;">
+            @if (Model.RecentBookings == null || !Model.RecentBookings.Any())
+            {
+                <div class="empty-mini"><i class="bi bi-calendar-x"></i> No bookings yet.</div>
+            }
+            else
+            {
+                @foreach (var b in Model.RecentBookings)
+                {
+                    <div class="booking-item">
+                        <div class="booking-avatar">
+                            @(b.NameSurname?.Length > 0 ? b.NameSurname[0].ToString().ToUpper() : "?")
+                        </div>
+                        <div class="booking-info">
+                            <div class="booking-name">@b.NameSurname</div>
+                            <div class="booking-tour">@b.TourTitle</div>
+                        </div>
+                        <div class="booking-right">
+                            <div class="booking-price">€@b.TotalPrice.ToString("N0")</div>
+                            <div class="booking-date">@b.BookingDate.ToString("dd.MM.yyyy")</div>
+                        </div>
+                        <span class="pill @(b.Status == "Approved" ? "pill-approved" : b.Status == "Cancelled" ? "pill-cancelled" : "pill-pending")">
+                            @b.Status
+                        </span>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+
+    <!-- Booking Status Breakdown -->
+    <div class="dash-card">
+        <div class="dash-card-header">
+            <div class="dash-card-title">
+                <i class="bi bi-pie-chart"></i> Booking Status
+            </div>
+        </div>
+        <div class="dash-card-body">
+
+            @{
+                var total = Model.TotalBookings > 0 ? Model.TotalBookings : 1;
+                var approvedPct = (int)((double)Model.ApprovedBookings / total * 100);
+                var pendingPct = (int)((double)Model.PendingBookings / total * 100);
+                var cancelledPct = (int)((double)Model.CancelledBookings / total * 100);
+            }
+
+            <div class="status-breakdown">
+                <div class="status-row">
+                    <div class="status-row-header">
+                        <span class="status-row-label">
+                            <span style="width:10px;height:10px;border-radius:50%;background:#16a34a;display:inline-block;"></span>
+                            Approved
+                        </span>
+                        <span class="status-row-value">@Model.ApprovedBookings <span style="font-weight:400;color:#a0aec0;font-size:.72rem;">(@approvedPct%)</span></span>
+                    </div>
+                    <div class="progress-bar-wrap">
+                        <div class="progress-bar-fill fill-approved" style="width:@approvedPct%"></div>
+                    </div>
+                </div>
+
+                <div class="status-row">
+                    <div class="status-row-header">
+                        <span class="status-row-label">
+                            <span style="width:10px;height:10px;border-radius:50%;background:#d97706;display:inline-block;"></span>
+                            Pending
+                        </span>
+                        <span class="status-row-value">@Model.PendingBookings <span style="font-weight:400;color:#a0aec0;font-size:.72rem;">(@pendingPct%)</span></span>
+                    </div>
+                    <div class="progress-bar-wrap">
+                        <div class="progress-bar-fill fill-pending" style="width:@pendingPct%"></div>
+                    </div>
+                </div>
+
+                <div class="status-row">
+                    <div class="status-row-header">
+                        <span class="status-row-label">
+                            <span style="width:10px;height:10px;border-radius:50%;background:#e53e3e;display:inline-block;"></span>
+                            Cancelled
+                        </span>
+                        <span class="status-row-value">@Model.CancelledBookings <span style="font-weight:400;color:#a0aec0;font-size:.72rem;">(@cancelledPct%)</span></span>
+                    </div>
+                    <div class="progress-bar-wrap">
+                        <div class="progress-bar-fill fill-cancelled" style="width:@cancelledPct%"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="margin-top:1.5rem; padding-top:1.25rem; border-top:1px solid #f0f4f8;">
+                <div style="display:flex; justify-content:space-between; font-size:.8rem;">
+                    <span style="color:#a0aec0;">Pending approvals</span>
+                    <span style="font-weight:700; color:@(Model.PendingBookings > 0 ? "#d97706" : "#16a34a");">
+                        @Model.PendingBookings waiting
+                    </span>
+                </div>
+                @if (Model.PendingBookings > 0)
+                {
+                    <a href="/AdminBooking/BookingList" class="btn btn-warning btn-sm mt-2 w-100"
+                       style="border-radius:8px; font-size:.78rem; font-weight:600;">
+                        <i class="bi bi-clock me-1"></i> Review Pending Bookings
+                    </a>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ROW 2: Recent Reviews + Top Tours -->
+<div class="content-grid-3">
+
+    <!-- Recent Reviews -->
+    <div class="dash-card">
+        <div class="dash-card-header">
+            <div class="dash-card-title">
+                <i class="bi bi-star"></i> Recent Reviews
+            </div>
+            <a href="/Comment/ReviewList" class="view-all">View all <i class="bi bi-arrow-right"></i></a>
+        </div>
+        <div class="dash-card-body" style="padding:0 1.5rem;">
+            @if (Model.RecentComments == null || !Model.RecentComments.Any())
+            {
+                <div class="empty-mini"><i class="bi bi-chat-square"></i> No reviews yet.</div>
+            }
+            else
+            {
+                @foreach (var c in Model.RecentComments)
+                {
+                    <div class="comment-item">
+                        <div class="comment-avatar">
+                            @(c.NameSurname?.Length > 0 ? c.NameSurname[0].ToString().ToUpper() : "?")
+                        </div>
+                        <div class="comment-body">
+                            <div class="comment-header">
+                                <span class="comment-name">@c.NameSurname</span>
+                                <div class="comment-stars">
+                                    @for (int i = 1; i <= 5; i++)
+                                    {
+                                        <i class="fa fa-star" style="color:@(i <= c.Score ? "#ffc107" : "#e2e8f0");"></i>
+                                    }
+                                </div>
+                            </div>
+                            <div class="comment-tour"><i class="bi bi-map me-1"></i>@c.TourTitle</div>
+                            <div class="comment-text">
+                                @((c.CommentDetail?.Length > 50) ? c.CommentDetail.Substring(0, 50) + "…" : c.CommentDetail)
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+
+    <!-- Top Tours by Bookings -->
+    <div class="dash-card">
+        <div class="dash-card-header">
+            <div class="dash-card-title">
+                <i class="bi bi-trophy"></i> Top Tours
+            </div>
+        </div>
+        <div class="dash-card-body" style="padding:0 1.5rem;">
+            @if (Model.TopTours == null || !Model.TopTours.Any())
+            {
+                <div class="empty-mini"><i class="bi bi-map"></i> No data yet.</div>
+            }
+            else
+            {
+                int rank = 1;
+                @foreach (var t in Model.TopTours)
+                {
+                    <div class="tour-item">
+                        <div class="tour-rank @(rank == 1 ? "gold" : rank == 2 ? "silver" : rank == 3 ? "bronze" : "")">
+                            @rank
+                        </div>
+                        <div class="tour-item-info">
+                            <div class="tour-item-name">@t.TourTitle</div>
+                            <div class="tour-item-loc">@t.Country</div>
+                        </div>
+                        <div class="tour-item-right">
+                            <div class="tour-item-count">@t.BookingCount</div>
+                            <div class="tour-item-label">bookings</div>
+                        </div>
+                    </div>
+                    rank++;
+                }
+            }
+        </div>
+    </div>
+
+</div>
+

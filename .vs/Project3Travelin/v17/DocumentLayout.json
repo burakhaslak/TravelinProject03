@@ -1,16 +1,7 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "C:\\Users\\burakhaslak\\source\\repos\\Project3Travelin\\",
-  "Documents": [
-    {
-      "AbsoluteMoniker": "D:0:0:{06EC5B95-D543-4A29-ACEE-9582EB5BE5EB}|Project3Travelin\\Project3Travelin.csproj|c:\\users\\burakhaslak\\source\\repos\\project3travelin\\project3travelin\\views\\admintour\\tourlist.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{06EC5B95-D543-4A29-ACEE-9582EB5BE5EB}|Project3Travelin\\Project3Travelin.csproj|solutionrelative:project3travelin\\views\\admintour\\tourlist.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{06EC5B95-D543-4A29-ACEE-9582EB5BE5EB}|Project3Travelin\\Project3Travelin.csproj|c:\\users\\burakhaslak\\source\\repos\\project3travelin\\project3travelin\\controllers\\admintourcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{06EC5B95-D543-4A29-ACEE-9582EB5BE5EB}|Project3Travelin\\Project3Travelin.csproj|solutionrelative:project3travelin\\controllers\\admintourcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    }
-  ],
+  "Documents": [],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -18,7 +9,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": -1,
           "Children": [
             {
               "$type": "Bookmark",
@@ -27,32 +18,6 @@
             {
               "$type": "Bookmark",
               "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "TourList.cshtml",
-              "DocumentMoniker": "C:\\Users\\burakhaslak\\source\\repos\\Project3Travelin\\Project3Travelin\\Views\\AdminTour\\TourList.cshtml",
-              "RelativeDocumentMoniker": "Project3Travelin\\Views\\AdminTour\\TourList.cshtml",
-              "ToolTip": "C:\\Users\\burakhaslak\\source\\repos\\Project3Travelin\\Project3Travelin\\Views\\AdminTour\\TourList.cshtml",
-              "RelativeToolTip": "Project3Travelin\\Views\\AdminTour\\TourList.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-02-20T12:40:53.956Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "AdminTourController.cs",
-              "DocumentMoniker": "C:\\Users\\burakhaslak\\source\\repos\\Project3Travelin\\Project3Travelin\\Controllers\\AdminTourController.cs",
-              "RelativeDocumentMoniker": "Project3Travelin\\Controllers\\AdminTourController.cs",
-              "ToolTip": "C:\\Users\\burakhaslak\\source\\repos\\Project3Travelin\\Project3Travelin\\Controllers\\AdminTourController.cs",
-              "RelativeToolTip": "Project3Travelin\\Controllers\\AdminTourController.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAfAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-20T12:39:24.809Z",
-              "EditorCaption": ""
             }
           ]
         }

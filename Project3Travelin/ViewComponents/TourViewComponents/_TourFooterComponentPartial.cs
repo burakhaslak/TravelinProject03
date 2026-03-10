@@ -1,12 +1,21 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Project3Travelin.Services.TourServices;
 
 namespace Project3Travelin.ViewComponents.TourViewComponents
 {
     public class _TourFooterComponentPartial : ViewComponent
     {
-        public IViewComponentResult Invoke()
+        private readonly ITourService _tourService;
+
+        public _TourFooterComponentPartial(ITourService tourService)
         {
-            return View();
+            _tourService = tourService;
+        }
+
+        public async Task <IViewComponentResult> InvokeAsync()
+        {
+            var values = await _tourService.GetAllTourAsync();
+            return View(values);
         }
     }
 }

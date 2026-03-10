@@ -1,0 +1,342 @@
+﻿
+@{
+    ViewData["Title"] = "Reports Page";
+    Layout = "~/Views/Shared/_TourLayout.cshtml";
+}
+
+@section Styles {
+    <style>
+        .page-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .page-title {
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: #1a202c;
+            letter-spacing: -.03em;
+            line-height: 1;
+        }
+
+        .breadcrumb {
+            margin: 0;
+            padding: 0;
+            background: none;
+        }
+
+        .breadcrumb-item {
+            font-size: .8rem;
+        }
+
+            .breadcrumb-item a {
+                color: #2563eb;
+                text-decoration: none;
+            }
+
+            .breadcrumb-item.active {
+                color: #718096;
+            }
+
+        .reports-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.25rem;
+            margin-bottom: 2rem;
+        }
+
+        .report-card {
+            background: #fff;
+            border: 1px solid #e2e8f0;
+            border-radius: 14px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,.04);
+            transition: box-shadow .2s, transform .2s;
+        }
+
+            .report-card:hover {
+                box-shadow: 0 8px 24px rgba(0,0,0,.08);
+                transform: translateY(-2px);
+            }
+
+        .report-card-header {
+            padding: 1.5rem 1.5rem 1rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+
+        .report-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: grid;
+            place-items: center;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+
+            .report-icon.blue {
+                background: #eff6ff;
+                color: #2563eb;
+            }
+
+            .report-icon.green {
+                background: #f0fdf4;
+                color: #16a34a;
+            }
+
+            .report-icon.purple {
+                background: #faf5ff;
+                color: #7c3aed;
+            }
+
+        .report-title {
+            font-weight: 700;
+            font-size: 1rem;
+            color: #1a202c;
+            margin-bottom: .25rem;
+        }
+
+        .report-desc {
+            font-size: .78rem;
+            color: #a0aec0;
+            line-height: 1.5;
+        }
+
+        .report-card-body {
+            padding: 0 1.5rem 1.5rem;
+        }
+
+        .report-meta {
+            display: flex;
+            gap: 1rem;
+            padding: .85rem 0;
+            border-top: 1px solid #f0f4f8;
+            border-bottom: 1px solid #f0f4f8;
+            margin-bottom: 1rem;
+        }
+
+        .report-meta-item {
+            display: flex;
+            flex-direction: column;
+            gap: .15rem;
+        }
+
+        .report-meta-label {
+            font-size: .7rem;
+            color: #a0aec0;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: .05em;
+        }
+
+        .report-meta-value {
+            font-size: .85rem;
+            font-weight: 700;
+            color: #1a202c;
+        }
+
+        .download-group {
+            display: flex;
+            gap: .6rem;
+        }
+
+        .btn-download {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: .4rem;
+            padding: .6rem .75rem;
+            border-radius: 9px;
+            font-size: .8rem;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: all .15s;
+            text-decoration: none;
+        }
+
+        .btn-excel {
+            background: #f0fdf4;
+            color: #16a34a;
+            border: 1.5px solid #bbf7d0;
+        }
+
+            .btn-excel:hover {
+                background: #dcfce7;
+                color: #15803d;
+                border-color: #86efac;
+            }
+
+        .btn-pdf {
+            background: #fff5f5;
+            color: #e53e3e;
+            border: 1.5px solid #fecaca;
+        }
+
+            .btn-pdf:hover {
+                background: #fee2e2;
+                color: #c53030;
+                border-color: #fca5a5;
+            }
+
+        /* INFO BANNER */
+        .info-banner {
+            background: #eff6ff;
+            border: 1px solid #bfdbfe;
+            border-radius: 12px;
+            padding: 1rem 1.25rem;
+            display: flex;
+            align-items: flex-start;
+            gap: .75rem;
+            font-size: .82rem;
+            color: #1e40af;
+        }
+
+            .info-banner i {
+                font-size: 1rem;
+                flex-shrink: 0;
+                margin-top: .1rem;
+            }
+
+        @@media (max-width: 991px) {
+            .reports-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @@media (max-width: 575px) {
+            .reports-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+}
+
+<div class="page-header">
+    <div>
+        <h1 class="page-title">Reports</h1>
+        <nav aria-label="breadcrumb" class="mt-2">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="#">Admin</a></li>
+                <li class="breadcrumb-item active">Reports</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+
+<div class="info-banner mb-4">
+    <i class="bi bi-info-circle-fill"></i>
+    <div>
+        Reports are generated in real-time from the latest data.
+        Excel files contain multiple sheets. PDF files are formatted for printing.
+    </div>
+</div>
+
+<div class="reports-grid">
+
+    <!-- BOOKING REPORT -->
+    <div class="report-card">
+        <div class="report-card-header">
+            <div class="report-icon blue"><i class="bi bi-calendar-check"></i></div>
+            <div>
+                <div class="report-title">Booking Report</div>
+                <div class="report-desc">All reservations with customer details, tour info, status and pricing.</div>
+            </div>
+        </div>
+        <div class="report-card-body">
+            <div class="report-meta">
+                <div class="report-meta-item">
+                    <span class="report-meta-label">Total</span>
+                    <span class="report-meta-value">@ViewBag.TotalBookings bookings</span>
+                </div>
+                <div class="report-meta-item">
+                    <span class="report-meta-label">Pending</span>
+                    <span class="report-meta-value" style="color:#d97706;">@ViewBag.PendingBookings</span>
+                </div>
+                <div class="report-meta-item">
+                    <span class="report-meta-label">Approved</span>
+                    <span class="report-meta-value" style="color:#16a34a;">@ViewBag.ApprovedBookings</span>
+                </div>
+            </div>
+            <div class="download-group">
+                <a href="/AdminReport/ExportBookingsExcel" class="btn-download btn-excel">
+                    <i class="bi bi-file-earmark-excel"></i> Excel
+                </a>
+                <a href="/AdminReport/ExportBookingsPdf" class="btn-download btn-pdf">
+                    <i class="bi bi-file-earmark-pdf"></i> PDF
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- REVENUE REPORT -->
+    <div class="report-card">
+        <div class="report-card-header">
+            <div class="report-icon green"><i class="bi bi-currency-euro"></i></div>
+            <div>
+                <div class="report-title">Revenue Report</div>
+                <div class="report-desc">Revenue breakdown by tour, monthly totals and approved booking earnings.</div>
+            </div>
+        </div>
+        <div class="report-card-body">
+            <div class="report-meta">
+                <div class="report-meta-item">
+                    <span class="report-meta-label">Total Revenue</span>
+                    <span class="report-meta-value">€@ViewBag.TotalRevenue</span>
+                </div>
+                <div class="report-meta-item">
+                    <span class="report-meta-label">Avg / Booking</span>
+                    <span class="report-meta-value">€@ViewBag.AvgRevenue</span>
+                </div>
+            </div>
+            <div class="download-group">
+                <a href="/AdminReport/ExportRevenueExcel" class="btn-download btn-excel">
+                    <i class="bi bi-file-earmark-excel"></i> Excel
+                </a>
+                <a href="/AdminReport/ExportRevenuePdf" class="btn-download btn-pdf">
+                    <i class="bi bi-file-earmark-pdf"></i> PDF
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- TOUR REPORT -->
+    <div class="report-card">
+        <div class="report-card-header">
+            <div class="report-icon purple"><i class="bi bi-map"></i></div>
+            <div>
+                <div class="report-title">Tour Report</div>
+                <div class="report-desc">All tours with location, capacity, pricing and date information.</div>
+            </div>
+        </div>
+        <div class="report-card-body">
+            <div class="report-meta">
+                <div class="report-meta-item">
+                    <span class="report-meta-label">Total Tours</span>
+                    <span class="report-meta-value">@ViewBag.TotalTours</span>
+                </div>
+                <div class="report-meta-item">
+                    <span class="report-meta-label">Countries</span>
+                    <span class="report-meta-value">@ViewBag.TotalCountries</span>
+                </div>
+            </div>
+            <div class="download-group">
+                <a href="/AdminReport/ExportToursExcel" class="btn-download btn-excel">
+                    <i class="bi bi-file-earmark-excel"></i> Excel
+                </a>
+                <a href="/AdminReport/ExportToursPdf" class="btn-download btn-pdf">
+                    <i class="bi bi-file-earmark-pdf"></i> PDF
+                </a>
+            </div>
+        </div>
+    </div>
+
+</div>
+

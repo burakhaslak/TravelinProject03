@@ -1,0 +1,61 @@
+﻿@model string
+
+<div id="single-add-review" class="single-box mb-4">
+	<h5 class="border-b pb-2 mb-2">Write a Review</h5>
+	<input type="hidden" id="tourIdInput" value="@Model" />
+	<div class="mb-3">
+		<label class="form-label fw-bold">Your Email</label>
+		<input type="email" id="commentMail" class="form-control" placeholder="Must match your booking email" />
+	</div>
+	<div class="mb-3">
+		<label class="form-label fw-bold">Full Name</label>
+		<input type="text" id="commentName" class="form-control" placeholder="Your name" />
+	</div>
+	<div class="mb-3">
+		<label class="form-label fw-bold">Headline</label>
+		<input type="text" id="commentHeadline" class="form-control" placeholder="Summarize your experience" />
+	</div>
+	<div class="mb-3">
+		<label class="form-label fw-bold">Your Review</label>
+		<textarea id="commentDetail" class="form-control" rows="4" placeholder="Share your experience..."></textarea>
+	</div>
+	<div class="mb-3">
+		<label class="form-label fw-bold">Score</label>
+		<select id="commentScore" class="form-select">
+			<option value="5">⭐⭐⭐⭐⭐ Excellent</option>
+			<option value="4">⭐⭐⭐⭐ Good</option>
+			<option value="3">⭐⭐⭐ Average</option>
+			<option value="2">⭐⭐ Poor</option>
+			<option value="1">⭐ Terrible</option>
+		</select>
+	</div>
+	<button onclick="submitComment('@Model')" class="nir-btn white w-100">Submit Review</button>
+</div>
+
+<script>
+	function submitComment(tourId) {
+		const data = {
+			mail: document.getElementById('commentMail').value,
+			nameSurname: document.getElementById('commentName').value,
+				headline: document.getElementById('commentHeadline').value,
+				commentDetail: document.getElementById('commentDetail').value,
+			score: parseInt(document.getElementById('commentScore').value),
+			tourId: tourId
+		};
+
+		fetch('/Comment/AddComment', {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify(data)
+		})
+		.then(r => r.json())
+		.then(result => {
+			Swal.fire({
+				icon: result.success ? 'success' : 'warning',
+				title: result.success ? 'Review Submitted!' : 'Not Eligible',
+				text: result.message,
+				confirmButtonColor: '#ff4838'
+			});
+		});
+	}
+</script>

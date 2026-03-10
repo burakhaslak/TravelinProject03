@@ -1,0 +1,32 @@
+﻿@model List<ResultCommentListByTourDto>
+
+<div id="single-comments" class="single-box mb-4">
+    <h5 class="border-b pb-2 mb-2">Guest Reviews</h5>
+    @foreach (var item in Model)
+    {
+        <div style="display:flex; gap:16px; padding:16px; border:1px solid #f0f0f0; border-radius:10px; margin-bottom:12px; background:#fff;">
+
+            @* Sol — fotoğraf *@
+            <div style="flex-shrink:0;">
+                <img src="/images/anonim1.jpg" alt="image" style="width:55px; height:55px; object-fit:cover; border-radius:50%;">
+            </div>
+
+            @* Sağ — bilgiler *@
+            <div style="flex:1;">
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                    <h5 class="mb-0">@item.NameSurname</h5>
+                    <small style="color:#999;">@item.CommentDate.ToString("MMMM dd, yyyy")</small>
+                </div>
+                <div style="margin:4px 0;">
+                    @for (int i = 1; i <= 5; i++)
+                    {
+                        <i class="fa fa-star" style="color: @(i <= item.Score ? "#ffc107" : "#ccc"); font-size:13px;"></i>
+                    }
+                </div>
+                <h6 style="margin:4px 0; color:#333;">@item.Headline</h6>
+                <p style="margin:0; color:#666; font-size:14px;">@item.CommentDetail</p>
+            </div>
+
+        </div>
+    }
+</div>

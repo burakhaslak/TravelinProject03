@@ -1,0 +1,121 @@
+﻿@using Project3Travelin.Dtos.DailyTourPlanDtos
+@model List<IGrouping<string, ResultDailyTourPlanDto>>
+
+@{
+    ViewData["Title"] = "Daily Tour Plans";
+    Layout = "~/Views/Shared/_TourLayout.cshtml"; 
+}
+
+@section Styles {
+    <style>
+        .tour-group-card {
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,.02);
+            margin-bottom: 2rem;
+        }
+
+        .tour-group-header {
+            background: #1a202c;
+            color: #fff;
+            padding: 1rem 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .plan-title {
+            font-weight: 700;
+            color: #2d3748;
+            font-size: 0.95rem;
+        }
+
+        .explanation-text {
+            font-size: 0.85rem;
+            color: #718096;
+            line-height: 1.4;
+        }
+
+        .id-badge {
+            font-family: monospace;
+            font-size: 0.7rem;
+            background: #f1f5f9;
+            padding: 2px 6px;
+            border-radius: 4px;
+            color: #64748b;
+        }
+    </style>
+}
+
+<div class="page-header d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h1 class="page-title" style="font-size: 1.6rem; font-weight: 800;">Daily Tour Plans</h1>
+        <p class="text-muted small mb-0">Itineraries grouped by their parent tours.</p>
+    </div>
+    <a href="/AdminDailyTourPlan/CreateTourPlan/" class="btn btn-primary px-4" style="border-radius:10px; font-weight:600;">
+        <i class="bi bi-calendar-plus me-2"></i> Add New Day
+    </a>
+</div>
+
+@foreach (var tourGroup in Model)
+{
+    <div class="tour-group-card">
+        <div class="tour-group-header">
+            <div>
+                <i class="bi bi-geo-alt-fill me-2 text-info"></i>
+                <span class="fw-bold">TOUR: </span>
+                <span class="badge bg-light text-dark ms-2" style="font-size: 0.9rem;">
+                    @tourGroup.Key  @* Burası artık "Salzburg & Hallstatt Tour" olacak *@
+                </span>
+            </div>
+            <span class="badge bg-primary">@tourGroup.Count() Days</span>
+        </div>
+
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="bg-light">
+                    <tr>
+                        <th class="ps-4" style="width: 25%">Day Title</th>
+                        <th style="width: 55%">Itinerary Highlights</th>
+                        <th class="text-end pe-4" style="width: 20%">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in tourGroup)
+                    {
+                        <tr>
+                            <td class="ps-4">
+                                <div class="plan-title">@item.Title</div>
+                                <div class="id-badge mt-1">ID: @item.DailyPlanId.Substring(item.DailyPlanId.Length - 6)</div>
+                            </td>
+                            <td>
+                                <div class="explanation-text">@item.ShortExplanation</div>
+                            </td>
+                            <td class="text-end pe-4">
+                                <div class="d-flex justify-content-end gap-2">
+                                    <a asp-action="UpdateTourPlan" asp-route-id="@item.DailyPlanId" class="btn btn-sm btn-outline-warning">
+                                        <i class="bi bi-pencil"></i>
+                                    </a>
+                                    <button onclick="confirmDeletePlan('@item.DailyPlanId')" class="btn btn-sm btn-outline-danger">
+                                        <i class="bi bi-trash3"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+}
+
+@section Scripts {
+    <script>
+        function confirmDeletePlan(id) {
+            if(confirm('Are you sure you want to delete this itinerary day?')) {
+                window.location.href = '/AdminDailyTourPlan/DeleteTourPlan/' + id;
+            }
+        }
+    </script>
+}
