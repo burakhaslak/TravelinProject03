@@ -34,6 +34,11 @@ A fully custom admin panel built with a consistent design system (card-based UI,
 - Tours are categorized as **Domestic / International** and **Visa Required / Visa Free**
 - Dedicated pages for `No Visa Tours` and `Domestic Tours` accessible from the main navigation
 
+### 🌍 Multi-Language Support
+
+The platform supports 6 languages via Google Translate widget:
+English, German, Arabic, French, Turkish, Russian
+
 ---
 
 ## 🛠️ Tech Stack & Key Features
@@ -49,6 +54,7 @@ A fully custom admin panel built with a consistent design system (card-based UI,
 | **PDF Export** | iTextSharp |
 | **UI** | Bootstrap 5, Bootstrap Icons, Font Awesome |
 | **Frontend** | Razor Views, ViewComponents, Partial Views |
+| **Localization** | Google Translate Widget (EN, DE, AR, FR, TR, RU) |
 
 ---
 
