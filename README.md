@@ -70,9 +70,6 @@ English, German, Arabic, French, Turkish, Russian
 - 📁 Excel & PDF report exports
 - 🌐 English culture default for consistent date/number formatting
 
----
-### Credits
-This project was developed as part of the Asp.Net Core 6.0 Project Camp by **Murat Yücedağ**.
 
 ---
 
